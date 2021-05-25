@@ -1,0 +1,4 @@
+https://colab.research.google.com/drive/1E5TFzXoWTp8nxzUTFDPhVM-GClWeVWxY
+
+requirements = python3,sqlite3,kivy,kivymd,pillow,mpmath, datetime, random2, plyer
+#android.permissions = INTERNET,WRITE_EXTERNAL_STORAGE,READ_EXTERNAL_STORAGE
