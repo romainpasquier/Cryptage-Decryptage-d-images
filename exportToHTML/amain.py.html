@@ -1,0 +1,1302 @@
+<html>
+<head>
+<title>main.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6a8759;}
+.s3 { color: #808080;}
+.s4 { color: #6897bb;}
+.s5 { color: #629755; font-style: italic;}
+.ln { color: #606366; font-weight: normal; font-style: normal; }
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+main.py</font>
+</center></td></tr></table>
+<pre><a name="l1"><span class="ln">1    </span></a><span class="s0">from </span><span class="s1">kivymd.app </span><span class="s0">import </span><span class="s1">MDApp</span>
+<a name="l2"><span class="ln">2    </span></a><span class="s0">from </span><span class="s1">kivy.uix.boxlayout </span><span class="s0">import </span><span class="s1">BoxLayout</span>
+<a name="l3"><span class="ln">3    </span></a><span class="s0">from </span><span class="s1">kivymd.theming </span><span class="s0">import </span><span class="s1">ThemableBehavior</span>
+<a name="l4"><span class="ln">4    </span></a><span class="s0">from </span><span class="s1">kivymd.uix.list </span><span class="s0">import </span><span class="s1">MDList</span>
+<a name="l5"><span class="ln">5    </span></a><span class="s0">from </span><span class="s1">kivymd.uix.button </span><span class="s0">import </span><span class="s1">MDFlatButton</span>
+<a name="l6"><span class="ln">6    </span></a><span class="s0">from </span><span class="s1">kivymd.uix.dialog </span><span class="s0">import </span><span class="s1">MDDialog</span>
+<a name="l7"><span class="ln">7    </span></a><span class="s0">from </span><span class="s1">kivy.lang </span><span class="s0">import </span><span class="s1">Builder</span>
+<a name="l8"><span class="ln">8    </span></a><span class="s0">from </span><span class="s1">kivy.properties </span><span class="s0">import </span><span class="s1">ListProperty</span>
+<a name="l9"><span class="ln">9    </span></a><span class="s0">from </span><span class="s1">kivy.utils </span><span class="s0">import </span><span class="s1">platform</span>
+<a name="l10"><span class="ln">10   </span></a>
+<a name="l11"><span class="ln">11   </span></a><span class="s0">from </span><span class="s1">PIL </span><span class="s0">import </span><span class="s1">Image</span>
+<a name="l12"><span class="ln">12   </span></a>
+<a name="l13"><span class="ln">13   </span></a><span class="s0">from </span><span class="s1">mpmath </span><span class="s0">import </span><span class="s1">sqrt</span>
+<a name="l14"><span class="ln">14   </span></a>
+<a name="l15"><span class="ln">15   </span></a><span class="s0">from </span><span class="s1">random2 </span><span class="s0">import </span><span class="s1">randint</span>
+<a name="l16"><span class="ln">16   </span></a><span class="s0">import </span><span class="s1">random2 </span><span class="s0">as </span><span class="s1">random</span>
+<a name="l17"><span class="ln">17   </span></a>
+<a name="l18"><span class="ln">18   </span></a><span class="s0">from </span><span class="s1">datetime </span><span class="s0">import </span><span class="s1">datetime</span>
+<a name="l19"><span class="ln">19   </span></a>
+<a name="l20"><span class="ln">20   </span></a><span class="s0">import </span><span class="s1">os</span>
+<a name="l21"><span class="ln">21   </span></a>
+<a name="l22"><span class="ln">22   </span></a><span class="s0">import </span><span class="s1">time</span>
+<a name="l23"><span class="ln">23   </span></a>
+<a name="l24"><span class="ln">24   </span></a><span class="s0">import </span><span class="s1">pickle</span>
+<a name="l25"><span class="ln">25   </span></a>
+<a name="l26"><span class="ln">26   </span></a><span class="s0">from </span><span class="s1">plyer </span><span class="s0">import </span><span class="s1">filechooser</span>
+<a name="l27"><span class="ln">27   </span></a>
+<a name="l28"><span class="ln">28   </span></a><span class="s1">nom = </span><span class="s2">&quot;_CryptoPasquier&quot;</span>
+<a name="l29"><span class="ln">29   </span></a><span class="s3">#path = &quot;/sdcard/&quot;</span>
+<a name="l30"><span class="ln">30   </span></a><span class="s1">path = </span><span class="s2">&quot;C:/Users/Romain/Desktop/TIPE VF/Application/Application android/Images/&quot;</span>
+<a name="l31"><span class="ln">31   </span></a>
+<a name="l32"><span class="ln">32   </span></a><span class="s0">if </span><span class="s1">platform == </span><span class="s2">'android'</span><span class="s1">:</span>
+<a name="l33"><span class="ln">33   </span></a>    <span class="s0">from </span><span class="s1">android.permissions </span><span class="s0">import </span><span class="s1">request_permissions</span><span class="s0">, </span><span class="s1">Permission</span>
+<a name="l34"><span class="ln">34   </span></a>    <span class="s1">request_permissions([</span>
+<a name="l35"><span class="ln">35   </span></a>        <span class="s1">Permission.WRITE_EXTERNAL_STORAGE</span><span class="s0">,</span>
+<a name="l36"><span class="ln">36   </span></a>        <span class="s1">Permission.READ_EXTERNAL_STORAGE</span><span class="s0">,</span>
+<a name="l37"><span class="ln">37   </span></a>        <span class="s1">Permission.INTERNET</span><span class="s0">,</span>
+<a name="l38"><span class="ln">38   </span></a>    <span class="s1">])</span>
+<a name="l39"><span class="ln">39   </span></a>
+<a name="l40"><span class="ln">40   </span></a><span class="s0">try</span><span class="s1">:</span>
+<a name="l41"><span class="ln">41   </span></a>
+<a name="l42"><span class="ln">42   </span></a>    <span class="s1">os.mkdir(path + nom)</span>
+<a name="l43"><span class="ln">43   </span></a>    <span class="s1">os.mkdir(path + nom + </span><span class="s2">&quot;/&quot; </span><span class="s1">+ </span><span class="s2">&quot;Encryption&quot;</span><span class="s1">)</span>
+<a name="l44"><span class="ln">44   </span></a>    <span class="s1">os.mkdir(path + nom + </span><span class="s2">&quot;/&quot; </span><span class="s1">+ </span><span class="s2">&quot;Decryption&quot;</span><span class="s1">)</span>
+<a name="l45"><span class="ln">45   </span></a>
+<a name="l46"><span class="ln">46   </span></a>    <span class="s1">path_crypte = path + nom + </span><span class="s2">&quot;/&quot; </span><span class="s1">+ </span><span class="s2">&quot;Encryption&quot; </span><span class="s1">+ </span><span class="s2">&quot;/&quot;</span>
+<a name="l47"><span class="ln">47   </span></a>    <span class="s1">path_decrypte = path + nom + </span><span class="s2">&quot;/&quot; </span><span class="s1">+ </span><span class="s2">&quot;Decryption&quot; </span><span class="s1">+ </span><span class="s2">&quot;/&quot;</span>
+<a name="l48"><span class="ln">48   </span></a>
+<a name="l49"><span class="ln">49   </span></a><span class="s0">except</span><span class="s1">:</span>
+<a name="l50"><span class="ln">50   </span></a>    <span class="s1">path_crypte = path + nom + </span><span class="s2">&quot;/&quot; </span><span class="s1">+ </span><span class="s2">&quot;Encryption&quot; </span><span class="s1">+ </span><span class="s2">&quot;/&quot;</span>
+<a name="l51"><span class="ln">51   </span></a>    <span class="s1">path_decrypte = path + nom + </span><span class="s2">&quot;/&quot; </span><span class="s1">+ </span><span class="s2">&quot;Decryption&quot; </span><span class="s1">+ </span><span class="s2">&quot;/&quot;</span>
+<a name="l52"><span class="ln">52   </span></a>    <span class="s0">pass</span>
+<a name="l53"><span class="ln">53   </span></a>
+<a name="l54"><span class="ln">54   </span></a>
+<a name="l55"><span class="ln">55   </span></a><span class="s3">#temps = x * y * 9e-06</span>
+<a name="l56"><span class="ln">56   </span></a><span class="s3">#MdProgressBar</span>
+<a name="l57"><span class="ln">57   </span></a>
+<a name="l58"><span class="ln">58   </span></a><span class="s1">navigation_helper = </span><span class="s2">&quot;&quot;&quot; 
+<a name="l59"><span class="ln">59   </span></a>Screen: 
+<a name="l60"><span class="ln">60   </span></a>    BoxLayout: 
+<a name="l61"><span class="ln">61   </span></a>        orientation: 'vertical' 
+<a name="l62"><span class="ln">62   </span></a>        MDToolbar: 
+<a name="l63"><span class="ln">63   </span></a>            title: 'Crypto' 
+<a name="l64"><span class="ln">64   </span></a>            left_action_items: [[&quot;menu&quot;, lambda x: nav_drawer.toggle_nav_drawer()]] 
+<a name="l65"><span class="ln">65   </span></a>            elevation:10 
+<a name="l66"><span class="ln">66   </span></a>        Widget: 
+<a name="l67"><span class="ln">67   </span></a> 
+<a name="l68"><span class="ln">68   </span></a>    NavigationLayout: 
+<a name="l69"><span class="ln">69   </span></a> 
+<a name="l70"><span class="ln">70   </span></a>        ScreenManager: 
+<a name="l71"><span class="ln">71   </span></a> 
+<a name="l72"><span class="ln">72   </span></a>            id: screen_manager 
+<a name="l73"><span class="ln">73   </span></a> 
+<a name="l74"><span class="ln">74   </span></a>            Screen: 
+<a name="l75"><span class="ln">75   </span></a>                name:&quot;Page&quot; 
+<a name="l76"><span class="ln">76   </span></a>                Label: 
+<a name="l77"><span class="ln">77   </span></a>                    text: &quot;Welcome here you go&quot; 
+<a name="l78"><span class="ln">78   </span></a>                    pos_hint: {'right': 1} 
+<a name="l79"><span class="ln">79   </span></a>                    pos_hint: {'top': 1} 
+<a name="l80"><span class="ln">80   </span></a> 
+<a name="l81"><span class="ln">81   </span></a>                IconLeftWidget: 
+<a name="l82"><span class="ln">82   </span></a>                    icon: &quot;home&quot; 
+<a name="l83"><span class="ln">83   </span></a> 
+<a name="l84"><span class="ln">84   </span></a>            Screen: 
+<a name="l85"><span class="ln">85   </span></a> 
+<a name="l86"><span class="ln">86   </span></a>                name: &quot;screen_encryption&quot; 
+<a name="l87"><span class="ln">87   </span></a>                BoxLayout: 
+<a name="l88"><span class="ln">88   </span></a>                    orientation: &quot;vertical&quot; 
+<a name="l89"><span class="ln">89   </span></a>                    padding: 67 
+<a name="l90"><span class="ln">90   </span></a>                    FileChoose: 
+<a name="l91"><span class="ln">91   </span></a>                        pos_hint: {'center_x': 0.5, 'center_y': 0.5} 
+<a name="l92"><span class="ln">92   </span></a>                        md_bg_color: 0.8, 0.8, 0.8, 1 
+<a name="l93"><span class="ln">93   </span></a>                        font_size: &quot;18sp&quot; 
+<a name="l94"><span class="ln">94   </span></a>                        text: 'Select an JPG image' 
+<a name="l95"><span class="ln">95   </span></a>                        on_release: 
+<a name="l96"><span class="ln">96   </span></a>                            self.choose() 
+<a name="l97"><span class="ln">97   </span></a>                            screen_manager.current = &quot;screen_encryption2&quot; 
+<a name="l98"><span class="ln">98   </span></a>                            screen_manager.transition.direction = &quot;left&quot; 
+<a name="l99"><span class="ln">99   </span></a> 
+<a name="l100"><span class="ln">100  </span></a>            Screen: 
+<a name="l101"><span class="ln">101  </span></a>                name: &quot;screen_encryption2&quot; 
+<a name="l102"><span class="ln">102  </span></a> 
+<a name="l103"><span class="ln">103  </span></a>                BoxLayout: 
+<a name="l104"><span class="ln">104  </span></a> 
+<a name="l105"><span class="ln">105  </span></a>                    orientation: &quot;vertical&quot; 
+<a name="l106"><span class="ln">106  </span></a>                    padding: 10 
+<a name="l107"><span class="ln">107  </span></a>                    spacing: 10 
+<a name="l108"><span class="ln">108  </span></a> 
+<a name="l109"><span class="ln">109  </span></a>                    Label: 
+<a name="l110"><span class="ln">110  </span></a> 
+<a name="l111"><span class="ln">111  </span></a>                        text: &quot;Your source image :&quot; 
+<a name="l112"><span class="ln">112  </span></a> 
+<a name="l113"><span class="ln">113  </span></a>                    Image: 
+<a name="l114"><span class="ln">114  </span></a>                        id: my_image 
+<a name="l115"><span class="ln">115  </span></a>                        source: &quot;&quot; 
+<a name="l116"><span class="ln">116  </span></a> 
+<a name="l117"><span class="ln">117  </span></a>                    ProgressBar: 
+<a name="l118"><span class="ln">118  </span></a>                        id: my_progress_bar_crypte 
+<a name="l119"><span class="ln">119  </span></a>                        value: 0 
+<a name="l120"><span class="ln">120  </span></a>                        min: 0 
+<a name="l121"><span class="ln">121  </span></a>                        max: 1 
+<a name="l122"><span class="ln">122  </span></a>                        pos_hint: {'x': .1} 
+<a name="l123"><span class="ln">123  </span></a>                        size_hint_x: .8 
+<a name="l124"><span class="ln">124  </span></a> 
+<a name="l125"><span class="ln">125  </span></a>                        canvas: 
+<a name="l126"><span class="ln">126  </span></a>                            BorderImage: 
+<a name="l127"><span class="ln">127  </span></a>                                border: (12, 12, 12, 12) 
+<a name="l128"><span class="ln">128  </span></a>                                pos: self.x, self.center_y - 12 
+<a name="l129"><span class="ln">129  </span></a>                                size: self.width, 24 
+<a name="l130"><span class="ln">130  </span></a>                                source: 'gris.png' 
+<a name="l131"><span class="ln">131  </span></a>                            BorderImage: 
+<a name="l132"><span class="ln">132  </span></a>                                border: [int(min(self.width * (self.value / float(self.max)) if self.max else 0, 12))] * 4 
+<a name="l133"><span class="ln">133  </span></a>                                pos: self.x, self.center_y - 12 
+<a name="l134"><span class="ln">134  </span></a>                                size: self.width * (self.value / float(self.max)) if self.max else 0, 24 
+<a name="l135"><span class="ln">135  </span></a>                                source: 'blanc.png' 
+<a name="l136"><span class="ln">136  </span></a> 
+<a name="l137"><span class="ln">137  </span></a>                    MDRectangleFlatButton: 
+<a name="l138"><span class="ln">138  </span></a>                        text: &quot;Encryption&quot; 
+<a name="l139"><span class="ln">139  </span></a>                        pos_hint: {'center_x': 0.5, 'center_y': 0.4} 
+<a name="l140"><span class="ln">140  </span></a>                        on_release: 
+<a name="l141"><span class="ln">141  </span></a>                            app.bar_crypte() 
+<a name="l142"><span class="ln">142  </span></a>                            app.encryption(my_image.source) 
+<a name="l143"><span class="ln">143  </span></a>                            screen_manager.transition.direction = &quot;left&quot; 
+<a name="l144"><span class="ln">144  </span></a>                            screen_manager.current = &quot;screen_encryption3&quot; 
+<a name="l145"><span class="ln">145  </span></a> 
+<a name="l146"><span class="ln">146  </span></a> 
+<a name="l147"><span class="ln">147  </span></a>                    MDRectangleFlatButton: 
+<a name="l148"><span class="ln">148  </span></a>                        text: &quot;Return&quot; 
+<a name="l149"><span class="ln">149  </span></a>                        on_release: 
+<a name="l150"><span class="ln">150  </span></a>                            screen_manager.transition.direction = &quot;right&quot; 
+<a name="l151"><span class="ln">151  </span></a>                            screen_manager.current = &quot;screen_encryption&quot; 
+<a name="l152"><span class="ln">152  </span></a>            Screen: 
+<a name="l153"><span class="ln">153  </span></a>                name: &quot;screen_encryption3&quot; 
+<a name="l154"><span class="ln">154  </span></a> 
+<a name="l155"><span class="ln">155  </span></a>                BoxLayout: 
+<a name="l156"><span class="ln">156  </span></a> 
+<a name="l157"><span class="ln">157  </span></a>                    orientation: &quot;vertical&quot; 
+<a name="l158"><span class="ln">158  </span></a>                    padding: 10 
+<a name="l159"><span class="ln">159  </span></a>                    spacing: 10 
+<a name="l160"><span class="ln">160  </span></a> 
+<a name="l161"><span class="ln">161  </span></a>                    Label: 
+<a name="l162"><span class="ln">162  </span></a> 
+<a name="l163"><span class="ln">163  </span></a>                        text: &quot;Your encrypted image :&quot; 
+<a name="l164"><span class="ln">164  </span></a> 
+<a name="l165"><span class="ln">165  </span></a>                    Image: 
+<a name="l166"><span class="ln">166  </span></a>                        id: my_image_crypte 
+<a name="l167"><span class="ln">167  </span></a>                        source: &quot;&quot; 
+<a name="l168"><span class="ln">168  </span></a> 
+<a name="l169"><span class="ln">169  </span></a>                    MDRectangleFlatButton: 
+<a name="l170"><span class="ln">170  </span></a>                        text: &quot;View key&quot; 
+<a name="l171"><span class="ln">171  </span></a>                        pos_hint: {'center_x': 0.9, 'center_y': 0.1} 
+<a name="l172"><span class="ln">172  </span></a>                        on_release: 
+<a name="l173"><span class="ln">173  </span></a>                            screen_manager.current = &quot;screen_encryption4&quot; 
+<a name="l174"><span class="ln">174  </span></a>                            screen_manager.transition.direction = &quot;left&quot; 
+<a name="l175"><span class="ln">175  </span></a> 
+<a name="l176"><span class="ln">176  </span></a> 
+<a name="l177"><span class="ln">177  </span></a>            Screen: 
+<a name="l178"><span class="ln">178  </span></a>                name: &quot;screen_encryption4&quot; 
+<a name="l179"><span class="ln">179  </span></a> 
+<a name="l180"><span class="ln">180  </span></a>                Label: 
+<a name="l181"><span class="ln">181  </span></a>                    text: &quot;Your encryption key :&quot; 
+<a name="l182"><span class="ln">182  </span></a>                    pos_hint: {'center_y': 0.8} 
+<a name="l183"><span class="ln">183  </span></a> 
+<a name="l184"><span class="ln">184  </span></a>                Label: 
+<a name="l185"><span class="ln">185  </span></a>                    id: label_id 
+<a name="l186"><span class="ln">186  </span></a> 
+<a name="l187"><span class="ln">187  </span></a>                    text:&quot;&quot; 
+<a name="l188"><span class="ln">188  </span></a> 
+<a name="l189"><span class="ln">189  </span></a>                MDRectangleFlatButton: 
+<a name="l190"><span class="ln">190  </span></a>                    text: &quot;Copy&quot; 
+<a name="l191"><span class="ln">191  </span></a>                    pos_hint: {'center_x': 0.5, 'center_y': 0.4} 
+<a name="l192"><span class="ln">192  </span></a> 
+<a name="l193"><span class="ln">193  </span></a> 
+<a name="l194"><span class="ln">194  </span></a> 
+<a name="l195"><span class="ln">195  </span></a>                MDRectangleFlatButton: 
+<a name="l196"><span class="ln">196  </span></a>                    text: &quot;Return to Your encrypted image&quot; 
+<a name="l197"><span class="ln">197  </span></a>                    pos_hint: {'center_x': 0.2, 'center_y': 0.1} 
+<a name="l198"><span class="ln">198  </span></a>                    on_release: 
+<a name="l199"><span class="ln">199  </span></a>                        screen_manager.transition.direction = &quot;right&quot; 
+<a name="l200"><span class="ln">200  </span></a>                        screen_manager.current = &quot;screen_encryption3&quot; 
+<a name="l201"><span class="ln">201  </span></a> 
+<a name="l202"><span class="ln">202  </span></a>                MDRectangleFlatButton: 
+<a name="l203"><span class="ln">203  </span></a>                    text: &quot;Home&quot; 
+<a name="l204"><span class="ln">204  </span></a>                    pos_hint: {'center_x': 0.9, 'center_y': 0.1} 
+<a name="l205"><span class="ln">205  </span></a>                    on_release: 
+<a name="l206"><span class="ln">206  </span></a>                        screen_manager.current = &quot;Page&quot; 
+<a name="l207"><span class="ln">207  </span></a>                        screen_manager.transition.direction = &quot;down&quot; 
+<a name="l208"><span class="ln">208  </span></a> 
+<a name="l209"><span class="ln">209  </span></a>            Screen: 
+<a name="l210"><span class="ln">210  </span></a> 
+<a name="l211"><span class="ln">211  </span></a>                name:&quot;screen_decryption&quot; 
+<a name="l212"><span class="ln">212  </span></a>                MDTextField: 
+<a name="l213"><span class="ln">213  </span></a>                    id: key 
+<a name="l214"><span class="ln">214  </span></a>                    hint_text: &quot;Enter key&quot; 
+<a name="l215"><span class="ln">215  </span></a>                    helper_text: &quot;or click on anywhere&quot; 
+<a name="l216"><span class="ln">216  </span></a>                    helper_text_mode: &quot;on_focus&quot; 
+<a name="l217"><span class="ln">217  </span></a>                    icon_right: &quot;account-key&quot; 
+<a name="l218"><span class="ln">218  </span></a>                    icon_right_color: app.theme_cls.primary_color 
+<a name="l219"><span class="ln">219  </span></a>                    pos_hint:{'center_x': 0.5, 'center_y': 0.5} 
+<a name="l220"><span class="ln">220  </span></a>                    size_hint_x:None 
+<a name="l221"><span class="ln">221  </span></a>                    width:200 
+<a name="l222"><span class="ln">222  </span></a> 
+<a name="l223"><span class="ln">223  </span></a>                MDRectangleFlatButton: 
+<a name="l224"><span class="ln">224  </span></a>                    text: &quot;Enter&quot; 
+<a name="l225"><span class="ln">225  </span></a>                    pos_hint: {'center_x': 0.5, 'center_y': 0.4} 
+<a name="l226"><span class="ln">226  </span></a>                    on_release: 
+<a name="l227"><span class="ln">227  </span></a>                        app.show_data(key.text) 
+<a name="l228"><span class="ln">228  </span></a>                        screen_manager.current = &quot;screen_decryption2&quot; 
+<a name="l229"><span class="ln">229  </span></a> 
+<a name="l230"><span class="ln">230  </span></a>            Screen: 
+<a name="l231"><span class="ln">231  </span></a> 
+<a name="l232"><span class="ln">232  </span></a>                name: &quot;screen_decryption2&quot; 
+<a name="l233"><span class="ln">233  </span></a>                BoxLayout: 
+<a name="l234"><span class="ln">234  </span></a>                    orientation: &quot;vertical&quot; 
+<a name="l235"><span class="ln">235  </span></a>                    padding: 67 
+<a name="l236"><span class="ln">236  </span></a>                    FileChoose: 
+<a name="l237"><span class="ln">237  </span></a>                        pos_hint: {'center_x': 0.5, 'center_y': 0.5} 
+<a name="l238"><span class="ln">238  </span></a>                        md_bg_color: 0.8, 0.8, 0.8, 1 
+<a name="l239"><span class="ln">239  </span></a>                        text: 'Select a file' 
+<a name="l240"><span class="ln">240  </span></a>                        font_size: &quot;18sp&quot; 
+<a name="l241"><span class="ln">241  </span></a>                        on_release: 
+<a name="l242"><span class="ln">242  </span></a>                            self.choose2() 
+<a name="l243"><span class="ln">243  </span></a>                            screen_manager.current = &quot;screen_decryption3&quot; 
+<a name="l244"><span class="ln">244  </span></a>                            screen_manager.transition.direction = &quot;left&quot; 
+<a name="l245"><span class="ln">245  </span></a> 
+<a name="l246"><span class="ln">246  </span></a>                    MDRectangleFlatButton: 
+<a name="l247"><span class="ln">247  </span></a>                        text: &quot;Return&quot; 
+<a name="l248"><span class="ln">248  </span></a>                        on_release: 
+<a name="l249"><span class="ln">249  </span></a>                            screen_manager.transition.direction = &quot;right&quot; 
+<a name="l250"><span class="ln">250  </span></a>                            screen_manager.current = &quot;screen_decryption&quot; 
+<a name="l251"><span class="ln">251  </span></a> 
+<a name="l252"><span class="ln">252  </span></a>            Screen: 
+<a name="l253"><span class="ln">253  </span></a> 
+<a name="l254"><span class="ln">254  </span></a>                name: &quot;screen_decryption3&quot; 
+<a name="l255"><span class="ln">255  </span></a> 
+<a name="l256"><span class="ln">256  </span></a>                BoxLayout: 
+<a name="l257"><span class="ln">257  </span></a> 
+<a name="l258"><span class="ln">258  </span></a>                    orientation: &quot;vertical&quot; 
+<a name="l259"><span class="ln">259  </span></a>                    padding: 10 
+<a name="l260"><span class="ln">260  </span></a>                    spacing: 10 
+<a name="l261"><span class="ln">261  </span></a> 
+<a name="l262"><span class="ln">262  </span></a>                    Label: 
+<a name="l263"><span class="ln">263  </span></a> 
+<a name="l264"><span class="ln">264  </span></a>                        text: &quot;Your crypted image :&quot; 
+<a name="l265"><span class="ln">265  </span></a> 
+<a name="l266"><span class="ln">266  </span></a>                    Image: 
+<a name="l267"><span class="ln">267  </span></a>                        id: my_image_crypted2 
+<a name="l268"><span class="ln">268  </span></a>                        source: &quot;&quot; 
+<a name="l269"><span class="ln">269  </span></a> 
+<a name="l270"><span class="ln">270  </span></a>                    ProgressBar: 
+<a name="l271"><span class="ln">271  </span></a>                        id: my_progress_bar_decrypte 
+<a name="l272"><span class="ln">272  </span></a>                        value: 0 
+<a name="l273"><span class="ln">273  </span></a>                        min: 0 
+<a name="l274"><span class="ln">274  </span></a>                        max: 1 
+<a name="l275"><span class="ln">275  </span></a>                        pos_hint: {'x': .1} 
+<a name="l276"><span class="ln">276  </span></a>                        size_hint_x: .8 
+<a name="l277"><span class="ln">277  </span></a> 
+<a name="l278"><span class="ln">278  </span></a>                        canvas: 
+<a name="l279"><span class="ln">279  </span></a>                            BorderImage: 
+<a name="l280"><span class="ln">280  </span></a>                                border: (12, 12, 12, 12) 
+<a name="l281"><span class="ln">281  </span></a>                                pos: self.x, self.center_y - 12 
+<a name="l282"><span class="ln">282  </span></a>                                size: self.width, 24 
+<a name="l283"><span class="ln">283  </span></a>                                source: 'gris.png' 
+<a name="l284"><span class="ln">284  </span></a>                            BorderImage: 
+<a name="l285"><span class="ln">285  </span></a>                                border: [int(min(self.width * (self.value / float(self.max)) if self.max else 0, 12))] * 4 
+<a name="l286"><span class="ln">286  </span></a>                                pos: self.x, self.center_y - 12 
+<a name="l287"><span class="ln">287  </span></a>                                size: self.width * (self.value / float(self.max)) if self.max else 0, 24 
+<a name="l288"><span class="ln">288  </span></a>                                source: 'blanc.png' 
+<a name="l289"><span class="ln">289  </span></a> 
+<a name="l290"><span class="ln">290  </span></a>                    MDRectangleFlatButton: 
+<a name="l291"><span class="ln">291  </span></a>                        text: &quot;Decryption&quot; 
+<a name="l292"><span class="ln">292  </span></a>                        pos_hint: {'center_x': 0.5, 'center_y': 0.4} 
+<a name="l293"><span class="ln">293  </span></a>                        on_release: 
+<a name="l294"><span class="ln">294  </span></a>                            app.bar_decrypte() 
+<a name="l295"><span class="ln">295  </span></a>                            screen_manager.transition.direction = &quot;left&quot; 
+<a name="l296"><span class="ln">296  </span></a>                            screen_manager.current = &quot;screen_decryption4&quot; 
+<a name="l297"><span class="ln">297  </span></a>                            app.decryption(my_image_crypted2.source) 
+<a name="l298"><span class="ln">298  </span></a> 
+<a name="l299"><span class="ln">299  </span></a>                    MDRectangleFlatButton: 
+<a name="l300"><span class="ln">300  </span></a>                        text: &quot;Return&quot; 
+<a name="l301"><span class="ln">301  </span></a>                        on_release: 
+<a name="l302"><span class="ln">302  </span></a>                            screen_manager.transition.direction = &quot;right&quot; 
+<a name="l303"><span class="ln">303  </span></a>                            screen_manager.current = &quot;screen_decryption2&quot; 
+<a name="l304"><span class="ln">304  </span></a> 
+<a name="l305"><span class="ln">305  </span></a>            Screen: 
+<a name="l306"><span class="ln">306  </span></a>                name: &quot;screen_decryption4&quot; 
+<a name="l307"><span class="ln">307  </span></a> 
+<a name="l308"><span class="ln">308  </span></a>                BoxLayout: 
+<a name="l309"><span class="ln">309  </span></a> 
+<a name="l310"><span class="ln">310  </span></a>                    orientation: &quot;vertical&quot; 
+<a name="l311"><span class="ln">311  </span></a>                    padding: 10 
+<a name="l312"><span class="ln">312  </span></a>                    spacing: 10 
+<a name="l313"><span class="ln">313  </span></a> 
+<a name="l314"><span class="ln">314  </span></a>                    Label: 
+<a name="l315"><span class="ln">315  </span></a> 
+<a name="l316"><span class="ln">316  </span></a>                        text: &quot;Your decrypted image :&quot; 
+<a name="l317"><span class="ln">317  </span></a> 
+<a name="l318"><span class="ln">318  </span></a>                    Image: 
+<a name="l319"><span class="ln">319  </span></a>                        id: my_image_decrypte 
+<a name="l320"><span class="ln">320  </span></a>                        source: &quot;&quot; 
+<a name="l321"><span class="ln">321  </span></a> 
+<a name="l322"><span class="ln">322  </span></a>                    MDRectangleFlatButton: 
+<a name="l323"><span class="ln">323  </span></a>                        text: &quot;Home&quot; 
+<a name="l324"><span class="ln">324  </span></a>                        pos_hint: {'center_x': 0.9, 'center_y': 0.1} 
+<a name="l325"><span class="ln">325  </span></a>                        on_release: 
+<a name="l326"><span class="ln">326  </span></a>                            screen_manager.current = &quot;Page&quot; 
+<a name="l327"><span class="ln">327  </span></a>                            screen_manager.transition.direction = &quot;down&quot; 
+<a name="l328"><span class="ln">328  </span></a> 
+<a name="l329"><span class="ln">329  </span></a> 
+<a name="l330"><span class="ln">330  </span></a> 
+<a name="l331"><span class="ln">331  </span></a>        MDNavigationDrawer: 
+<a name="l332"><span class="ln">332  </span></a>            id: nav_drawer 
+<a name="l333"><span class="ln">333  </span></a>            ContentNavigationDrawer: 
+<a name="l334"><span class="ln">334  </span></a>                orientation: 'vertical' 
+<a name="l335"><span class="ln">335  </span></a>                padding: &quot;10dp&quot; 
+<a name="l336"><span class="ln">336  </span></a>                spacing: &quot;10dp&quot; 
+<a name="l337"><span class="ln">337  </span></a> 
+<a name="l338"><span class="ln">338  </span></a>                MDLabel: 
+<a name="l339"><span class="ln">339  </span></a>                    text: &quot;Image :&quot; 
+<a name="l340"><span class="ln">340  </span></a>                    theme_text_color: 'Custom' 
+<a name="l341"><span class="ln">341  </span></a>                    text_color: [1, 1, 1, 1] 
+<a name="l342"><span class="ln">342  </span></a> 
+<a name="l343"><span class="ln">343  </span></a>                    font_style: &quot;Subtitle1&quot; 
+<a name="l344"><span class="ln">344  </span></a>                    size_hint_y: None 
+<a name="l345"><span class="ln">345  </span></a>                    height: self.texture_size[1] 
+<a name="l346"><span class="ln">346  </span></a> 
+<a name="l347"><span class="ln">347  </span></a>                MDLabel: 
+<a name="l348"><span class="ln">348  </span></a>                    text: &quot;Encryption / Decryption&quot; 
+<a name="l349"><span class="ln">349  </span></a>                    theme_text_color: 'Custom' 
+<a name="l350"><span class="ln">350  </span></a>                    text_color: [0.8, 0.8, 0.8, 1] 
+<a name="l351"><span class="ln">351  </span></a>                    size_hint_y: None 
+<a name="l352"><span class="ln">352  </span></a>                    font_style: &quot;Caption&quot; 
+<a name="l353"><span class="ln">353  </span></a>                    height: self.texture_size[1] 
+<a name="l354"><span class="ln">354  </span></a>                ScrollView: 
+<a name="l355"><span class="ln">355  </span></a>                    DrawerList: 
+<a name="l356"><span class="ln">356  </span></a>                        id: md_list 
+<a name="l357"><span class="ln">357  </span></a> 
+<a name="l358"><span class="ln">358  </span></a>                        MDList: 
+<a name="l359"><span class="ln">359  </span></a> 
+<a name="l360"><span class="ln">360  </span></a>                            OneLineIconListItem: 
+<a name="l361"><span class="ln">361  </span></a>                                text: &quot;Home&quot; 
+<a name="l362"><span class="ln">362  </span></a>                                on_release: 
+<a name="l363"><span class="ln">363  </span></a>                                    screen_manager.current = &quot;Page&quot; 
+<a name="l364"><span class="ln">364  </span></a>                                    screen_manager.transition.direction = &quot;down&quot; 
+<a name="l365"><span class="ln">365  </span></a> 
+<a name="l366"><span class="ln">366  </span></a>                                IconLeftWidget: 
+<a name="l367"><span class="ln">367  </span></a>                                    icon: &quot;home&quot; 
+<a name="l368"><span class="ln">368  </span></a> 
+<a name="l369"><span class="ln">369  </span></a>                            OneLineIconListItem: 
+<a name="l370"><span class="ln">370  </span></a> 
+<a name="l371"><span class="ln">371  </span></a>                            ThreeLineIconListItem: 
+<a name="l372"><span class="ln">372  </span></a>                                text: &quot;Encryption&quot; 
+<a name="l373"><span class="ln">373  </span></a>                                secondary_text: &quot;Needs an image in jpg&quot; 
+<a name="l374"><span class="ln">374  </span></a>                                tertiary_text: &quot;Return an image and a key&quot; 
+<a name="l375"><span class="ln">375  </span></a>                                on_release: 
+<a name="l376"><span class="ln">376  </span></a>                                    screen_manager.current= &quot;screen_encryption&quot; 
+<a name="l377"><span class="ln">377  </span></a>                                    screen_manager.transition.direction = &quot;left&quot; 
+<a name="l378"><span class="ln">378  </span></a> 
+<a name="l379"><span class="ln">379  </span></a>                                IconLeftWidget: 
+<a name="l380"><span class="ln">380  </span></a>                                    icon: &quot;image-edit&quot; 
+<a name="l381"><span class="ln">381  </span></a> 
+<a name="l382"><span class="ln">382  </span></a>                            ThreeLineIconListItem: 
+<a name="l383"><span class="ln">383  </span></a>                                text: &quot;Decryption&quot; 
+<a name="l384"><span class="ln">384  </span></a>                                secondary_text: &quot;Needs an image and a key&quot; 
+<a name="l385"><span class="ln">385  </span></a>                                tertiary_text: &quot;Return an image in jpg&quot; 
+<a name="l386"><span class="ln">386  </span></a>                                on_release: 
+<a name="l387"><span class="ln">387  </span></a>                                    screen_manager.current = &quot;screen_decryption&quot; 
+<a name="l388"><span class="ln">388  </span></a>                                    screen_manager.transition.direction = &quot;left&quot; 
+<a name="l389"><span class="ln">389  </span></a> 
+<a name="l390"><span class="ln">390  </span></a>                                IconLeftWidget: 
+<a name="l391"><span class="ln">391  </span></a>                                    icon: &quot;image-frame&quot; 
+<a name="l392"><span class="ln">392  </span></a> 
+<a name="l393"><span class="ln">393  </span></a>&quot;&quot;&quot;</span>
+<a name="l394"><span class="ln">394  </span></a>
+<a name="l395"><span class="ln">395  </span></a><span class="s0">class </span><span class="s1">FileChoose(MDFlatButton):</span>
+<a name="l396"><span class="ln">396  </span></a>
+<a name="l397"><span class="ln">397  </span></a>    <span class="s1">selection = ListProperty([])</span>
+<a name="l398"><span class="ln">398  </span></a>
+<a name="l399"><span class="ln">399  </span></a>    <span class="s0">def </span><span class="s1">choose(self):</span>
+<a name="l400"><span class="ln">400  </span></a>        <span class="s1">filechooser.open_file(on_selection=self.handle_selection)</span>
+<a name="l401"><span class="ln">401  </span></a>
+<a name="l402"><span class="ln">402  </span></a>    <span class="s0">def </span><span class="s1">handle_selection(self</span><span class="s0">, </span><span class="s1">selection):</span>
+<a name="l403"><span class="ln">403  </span></a>        <span class="s1">self.selection = selection</span>
+<a name="l404"><span class="ln">404  </span></a>
+<a name="l405"><span class="ln">405  </span></a>    <span class="s0">def </span><span class="s1">on_selection(self</span><span class="s0">, </span><span class="s1">*a</span><span class="s0">, </span><span class="s1">**k):</span>
+<a name="l406"><span class="ln">406  </span></a>        <span class="s1">MDApp.get_running_app().root.ids.my_image.source = str((self.selection)[</span><span class="s4">0</span><span class="s1">])</span>
+<a name="l407"><span class="ln">407  </span></a>
+<a name="l408"><span class="ln">408  </span></a>        <span class="s1">img_source = Image.open(str((self.selection)[</span><span class="s4">0</span><span class="s1">]))</span>
+<a name="l409"><span class="ln">409  </span></a>        <span class="s1">img_source.save(path_crypte + </span><span class="s2">&quot;Image_source.jpg&quot;</span><span class="s1">)</span>
+<a name="l410"><span class="ln">410  </span></a>
+<a name="l411"><span class="ln">411  </span></a>    <span class="s1">selection2 = ListProperty([])</span>
+<a name="l412"><span class="ln">412  </span></a>
+<a name="l413"><span class="ln">413  </span></a>    <span class="s0">def </span><span class="s1">choose2(self):</span>
+<a name="l414"><span class="ln">414  </span></a>        <span class="s1">filechooser.open_file(on_selection=self.handle_selection2)</span>
+<a name="l415"><span class="ln">415  </span></a>
+<a name="l416"><span class="ln">416  </span></a>    <span class="s0">def </span><span class="s1">handle_selection2(self</span><span class="s0">, </span><span class="s1">selection2):</span>
+<a name="l417"><span class="ln">417  </span></a>        <span class="s1">self.selection2 = selection2</span>
+<a name="l418"><span class="ln">418  </span></a>
+<a name="l419"><span class="ln">419  </span></a>    <span class="s0">def </span><span class="s1">on_selection2(self</span><span class="s0">, </span><span class="s1">*a</span><span class="s0">, </span><span class="s1">**k):</span>
+<a name="l420"><span class="ln">420  </span></a>        <span class="s1">MDApp.get_running_app().root.ids.my_image_crypted2.source = str((self.selection2)[</span><span class="s4">0</span><span class="s1">])</span>
+<a name="l421"><span class="ln">421  </span></a>        <span class="s1">img_source = Image.open(str((self.selection2)[</span><span class="s4">0</span><span class="s1">]))</span>
+<a name="l422"><span class="ln">422  </span></a>        <span class="s1">img_source.save(path_decrypte + </span><span class="s2">&quot;Image_crypte_new.bmp&quot;</span><span class="s1">)</span>
+<a name="l423"><span class="ln">423  </span></a>
+<a name="l424"><span class="ln">424  </span></a><span class="s0">class </span><span class="s1">DemoApp(MDApp):</span>
+<a name="l425"><span class="ln">425  </span></a>    <span class="s0">class </span><span class="s1">ContentNavigationDrawer(BoxLayout):</span>
+<a name="l426"><span class="ln">426  </span></a>        <span class="s0">pass</span>
+<a name="l427"><span class="ln">427  </span></a>
+<a name="l428"><span class="ln">428  </span></a>    <span class="s0">class </span><span class="s1">DrawerList(ThemableBehavior</span><span class="s0">, </span><span class="s1">MDList):</span>
+<a name="l429"><span class="ln">429  </span></a>        <span class="s0">def </span><span class="s1">set_color_item(self</span><span class="s0">, </span><span class="s1">instance_item):</span>
+<a name="l430"><span class="ln">430  </span></a>            <span class="s5">&quot;&quot;&quot;Called when tap on a menu item.&quot;&quot;&quot;</span>
+<a name="l431"><span class="ln">431  </span></a>
+<a name="l432"><span class="ln">432  </span></a>            <span class="s3"># Set the color of the icon and text for the menu item.</span>
+<a name="l433"><span class="ln">433  </span></a>            <span class="s0">for </span><span class="s1">item </span><span class="s0">in </span><span class="s1">self.children:</span>
+<a name="l434"><span class="ln">434  </span></a>                <span class="s0">if </span><span class="s1">item.text_color == self.theme_cls.primary_color:</span>
+<a name="l435"><span class="ln">435  </span></a>                    <span class="s1">item.text_color = self.theme_cls.text_color</span>
+<a name="l436"><span class="ln">436  </span></a>                    <span class="s0">break</span>
+<a name="l437"><span class="ln">437  </span></a>            <span class="s1">instance_item.text_color = self.theme_cls.primary_color</span>
+<a name="l438"><span class="ln">438  </span></a>
+<a name="l439"><span class="ln">439  </span></a>    <span class="s0">def </span><span class="s1">build(self):</span>
+<a name="l440"><span class="ln">440  </span></a>        <span class="s1">self.theme_cls.primary_palette = </span><span class="s2">&quot;Gray&quot;</span>
+<a name="l441"><span class="ln">441  </span></a>        <span class="s1">self.theme_cls.primary_hue = </span><span class="s2">&quot;100&quot;</span>
+<a name="l442"><span class="ln">442  </span></a>        <span class="s1">self.theme_cls.theme_style = </span><span class="s2">&quot;Dark&quot;</span>
+<a name="l443"><span class="ln">443  </span></a>
+<a name="l444"><span class="ln">444  </span></a>        <span class="s1">screen = Builder.load_string(navigation_helper)</span>
+<a name="l445"><span class="ln">445  </span></a>
+<a name="l446"><span class="ln">446  </span></a>        <span class="s0">return </span><span class="s1">screen</span>
+<a name="l447"><span class="ln">447  </span></a>
+<a name="l448"><span class="ln">448  </span></a>    <span class="s0">def </span><span class="s1">encryption(self</span><span class="s0">, </span><span class="s1">source):</span>
+<a name="l449"><span class="ln">449  </span></a>
+<a name="l450"><span class="ln">450  </span></a>        <span class="s1">img_source = Image.open(source)</span>
+<a name="l451"><span class="ln">451  </span></a>        <span class="s1">x_img</span><span class="s0">, </span><span class="s1">y_img = img_source.size</span>
+<a name="l452"><span class="ln">452  </span></a>        <span class="s1">fond_crypte = Image.new(</span><span class="s2">'RGB'</span><span class="s0">, </span><span class="s1">(x_img</span><span class="s0">, </span><span class="s1">y_img)</span><span class="s0">, </span><span class="s1">(</span><span class="s4">0</span><span class="s0">, </span><span class="s4">255</span><span class="s0">, </span><span class="s4">255</span><span class="s1">))</span>
+<a name="l453"><span class="ln">453  </span></a>        <span class="s1">pas = </span><span class="s4">1</span>
+<a name="l454"><span class="ln">454  </span></a>
+<a name="l455"><span class="ln">455  </span></a>        <span class="s0">def </span><span class="s1">cryptage(img):</span>
+<a name="l456"><span class="ln">456  </span></a>            <span class="s1">x_img</span><span class="s0">, </span><span class="s1">y_img = img.size</span>
+<a name="l457"><span class="ln">457  </span></a>            <span class="s1">taille_x = dimensions(y_img // pas) + </span><span class="s4">1</span>
+<a name="l458"><span class="ln">458  </span></a>            <span class="s1">taille_y = dimensions(x_img // pas) + </span><span class="s4">1</span>
+<a name="l459"><span class="ln">459  </span></a>            <span class="s1">grille_2 = quadrillage(img)</span>
+<a name="l460"><span class="ln">460  </span></a>            <span class="s1">grille_crypte2 = zeros(taille_x</span><span class="s0">, </span><span class="s1">taille_y)</span>
+<a name="l461"><span class="ln">461  </span></a>            <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">range(</span><span class="s4">1</span><span class="s0">, </span><span class="s1">len(grille_2)):</span>
+<a name="l462"><span class="ln">462  </span></a>                <span class="s0">for </span><span class="s1">j </span><span class="s0">in </span><span class="s1">range(</span><span class="s4">1</span><span class="s0">, </span><span class="s1">len(grille_2[</span><span class="s4">0</span><span class="s1">])):</span>
+<a name="l463"><span class="ln">463  </span></a>                    <span class="s1">x = (a * i + b) % (len(</span>
+<a name="l464"><span class="ln">464  </span></a>                        <span class="s1">grille_2) - </span><span class="s4">1</span><span class="s1">)  </span><span class="s3"># car sinon ce n'est plus un nombre premier (dut à la boucle qui ne va que jusqu'a n-1)</span>
+<a name="l465"><span class="ln">465  </span></a>                    <span class="s1">y = (c * j + d) % (len(grille_2[</span><span class="s4">0</span><span class="s1">]) - </span><span class="s4">1</span><span class="s1">)  </span><span class="s3"># idem</span>
+<a name="l466"><span class="ln">466  </span></a>                    <span class="s1">grille_crypte2[x + </span><span class="s4">1</span><span class="s1">][y + </span><span class="s4">1</span><span class="s1">] = grille_2[i][j]</span>
+<a name="l467"><span class="ln">467  </span></a>            <span class="s0">return </span><span class="s1">grille_crypte2</span>
+<a name="l468"><span class="ln">468  </span></a>
+<a name="l469"><span class="ln">469  </span></a>        <span class="s0">def </span><span class="s1">dimensions(x):</span>
+<a name="l470"><span class="ln">470  </span></a>            <span class="s1">premier = [</span><span class="s4">2</span><span class="s1">]</span>
+<a name="l471"><span class="ln">471  </span></a>            <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">range(</span><span class="s4">3</span><span class="s0">, </span><span class="s1">x + </span><span class="s4">1</span><span class="s1">):</span>
+<a name="l472"><span class="ln">472  </span></a>                <span class="s1">sqrtI = sqrt(i)</span>
+<a name="l473"><span class="ln">473  </span></a>                <span class="s0">for </span><span class="s1">j </span><span class="s0">in </span><span class="s1">premier:</span>
+<a name="l474"><span class="ln">474  </span></a>                    <span class="s0">if </span><span class="s1">i % j == </span><span class="s4">0</span><span class="s1">:</span>
+<a name="l475"><span class="ln">475  </span></a>                        <span class="s0">break</span>
+<a name="l476"><span class="ln">476  </span></a>                    <span class="s0">if </span><span class="s1">j &gt; sqrtI:</span>
+<a name="l477"><span class="ln">477  </span></a>                        <span class="s1">premier.append(i)</span>
+<a name="l478"><span class="ln">478  </span></a>                        <span class="s0">break</span>
+<a name="l479"><span class="ln">479  </span></a>            <span class="s0">return </span><span class="s1">premier[-</span><span class="s4">1</span><span class="s1">]</span>
+<a name="l480"><span class="ln">480  </span></a>
+<a name="l481"><span class="ln">481  </span></a>        <span class="s0">def </span><span class="s1">zeros(x</span><span class="s0">, </span><span class="s1">y):</span>
+<a name="l482"><span class="ln">482  </span></a>            <span class="s1">t_2 = []</span>
+<a name="l483"><span class="ln">483  </span></a>            <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">range(x):</span>
+<a name="l484"><span class="ln">484  </span></a>                <span class="s1">t_2.append([])</span>
+<a name="l485"><span class="ln">485  </span></a>                <span class="s0">for </span><span class="s1">j </span><span class="s0">in </span><span class="s1">range(y):</span>
+<a name="l486"><span class="ln">486  </span></a>                    <span class="s1">t_2[i].append((</span><span class="s4">0</span><span class="s0">, </span><span class="s4">0</span><span class="s1">))</span>
+<a name="l487"><span class="ln">487  </span></a>            <span class="s0">return </span><span class="s1">t_2</span>
+<a name="l488"><span class="ln">488  </span></a>
+<a name="l489"><span class="ln">489  </span></a>        <span class="s1">taille_x = dimensions(y_img // pas)</span>
+<a name="l490"><span class="ln">490  </span></a>        <span class="s1">taille_y = dimensions(x_img // pas)</span>
+<a name="l491"><span class="ln">491  </span></a>
+<a name="l492"><span class="ln">492  </span></a>        <span class="s1">grille_2 = zeros(taille_x + </span><span class="s4">1</span><span class="s0">, </span><span class="s1">taille_y + </span><span class="s4">1</span><span class="s1">)</span>
+<a name="l493"><span class="ln">493  </span></a>
+<a name="l494"><span class="ln">494  </span></a>        <span class="s0">def </span><span class="s1">quadrillage(img):</span>
+<a name="l495"><span class="ln">495  </span></a>            <span class="s1">x_img</span><span class="s0">, </span><span class="s1">y_img = img.size</span>
+<a name="l496"><span class="ln">496  </span></a>            <span class="s1">taille_x = dimensions(y_img // pas)</span>
+<a name="l497"><span class="ln">497  </span></a>            <span class="s1">taille_y = dimensions(x_img // pas)</span>
+<a name="l498"><span class="ln">498  </span></a>            <span class="s1">grille_2 = zeros(taille_x + </span><span class="s4">1</span><span class="s0">, </span><span class="s1">taille_y + </span><span class="s4">1</span><span class="s1">)</span>
+<a name="l499"><span class="ln">499  </span></a>            <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">range(taille_x):</span>
+<a name="l500"><span class="ln">500  </span></a>                <span class="s0">for </span><span class="s1">y </span><span class="s0">in </span><span class="s1">range(taille_y):</span>
+<a name="l501"><span class="ln">501  </span></a>                    <span class="s1">grille_2[x + </span><span class="s4">1</span><span class="s1">][y + </span><span class="s4">1</span><span class="s1">] = (y * pas</span><span class="s0">, </span><span class="s1">x * pas)</span>
+<a name="l502"><span class="ln">502  </span></a>            <span class="s0">return </span><span class="s1">grille_2</span>
+<a name="l503"><span class="ln">503  </span></a>
+<a name="l504"><span class="ln">504  </span></a>        <span class="s0">def </span><span class="s1">transpo_clef(ecrit):</span>
+<a name="l505"><span class="ln">505  </span></a>            <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">range(len(ecrit)):</span>
+<a name="l506"><span class="ln">506  </span></a>                <span class="s1">ecrit[i] = int(ecrit[i])</span>
+<a name="l507"><span class="ln">507  </span></a>            <span class="s0">return </span><span class="s1">ecrit</span>
+<a name="l508"><span class="ln">508  </span></a>
+<a name="l509"><span class="ln">509  </span></a>        <span class="s1">X = [[</span><span class="s4">1531</span><span class="s0">, </span><span class="s4">1894</span><span class="s0">, </span><span class="s4">1403</span><span class="s0">, </span><span class="s4">512</span><span class="s0">, </span><span class="s4">588</span><span class="s0">, </span><span class="s4">1709</span><span class="s0">, </span><span class="s4">460</span><span class="s0">, </span><span class="s4">606</span><span class="s0">, </span><span class="s4">1537</span><span class="s0">, </span><span class="s4">286</span><span class="s1">]</span><span class="s0">,</span>
+<a name="l510"><span class="ln">510  </span></a>             <span class="s1">[</span><span class="s4">925</span><span class="s0">, </span><span class="s4">1901</span><span class="s0">, </span><span class="s4">1803</span><span class="s0">, </span><span class="s4">318</span><span class="s0">, </span><span class="s4">1299</span><span class="s0">, </span><span class="s4">1680</span><span class="s0">, </span><span class="s4">1465</span><span class="s0">, </span><span class="s4">599</span><span class="s0">, </span><span class="s4">762</span><span class="s0">, </span><span class="s4">453</span><span class="s1">]</span><span class="s0">,</span>
+<a name="l511"><span class="ln">511  </span></a>             <span class="s1">[</span><span class="s4">1475</span><span class="s0">, </span><span class="s4">1819</span><span class="s0">, </span><span class="s4">587</span><span class="s0">, </span><span class="s4">1684</span><span class="s0">, </span><span class="s4">1589</span><span class="s0">, </span><span class="s4">534</span><span class="s0">, </span><span class="s4">1533</span><span class="s0">, </span><span class="s4">1435</span><span class="s0">, </span><span class="s4">607</span><span class="s0">, </span><span class="s4">850</span><span class="s1">]</span><span class="s0">,</span>
+<a name="l512"><span class="ln">512  </span></a>             <span class="s1">[</span><span class="s4">1667</span><span class="s0">, </span><span class="s4">1244</span><span class="s0">, </span><span class="s4">1405</span><span class="s0">, </span><span class="s4">818</span><span class="s0">, </span><span class="s4">523</span><span class="s0">, </span><span class="s4">667</span><span class="s0">, </span><span class="s4">600</span><span class="s0">, </span><span class="s4">1364</span><span class="s0">, </span><span class="s4">499</span><span class="s0">, </span><span class="s4">11</span><span class="s1">]</span><span class="s0">,</span>
+<a name="l513"><span class="ln">513  </span></a>             <span class="s1">[</span><span class="s4">621</span><span class="s0">, </span><span class="s4">304</span><span class="s0">, </span><span class="s4">312</span><span class="s0">, </span><span class="s4">159</span><span class="s0">, </span><span class="s4">1871</span><span class="s0">, </span><span class="s4">190</span><span class="s0">, </span><span class="s4">741</span><span class="s0">, </span><span class="s4">1202</span><span class="s0">, </span><span class="s4">1809</span><span class="s0">, </span><span class="s4">1247</span><span class="s1">]</span><span class="s0">,</span>
+<a name="l514"><span class="ln">514  </span></a>             <span class="s1">[</span><span class="s4">810</span><span class="s0">, </span><span class="s4">266</span><span class="s0">, </span><span class="s4">807</span><span class="s0">, </span><span class="s4">1144</span><span class="s0">, </span><span class="s4">1526</span><span class="s0">, </span><span class="s4">187</span><span class="s0">, </span><span class="s4">1075</span><span class="s0">, </span><span class="s4">184</span><span class="s0">, </span><span class="s4">1494</span><span class="s0">, </span><span class="s4">1251</span><span class="s1">]</span><span class="s0">,</span>
+<a name="l515"><span class="ln">515  </span></a>             <span class="s1">[</span><span class="s4">1370</span><span class="s0">, </span><span class="s4">348</span><span class="s0">, </span><span class="s4">1590</span><span class="s0">, </span><span class="s4">1841</span><span class="s0">, </span><span class="s4">923</span><span class="s0">, </span><span class="s4">87</span><span class="s0">, </span><span class="s4">346</span><span class="s0">, </span><span class="s4">308</span><span class="s0">, </span><span class="s4">1584</span><span class="s0">, </span><span class="s4">606</span><span class="s1">]</span><span class="s0">,</span>
+<a name="l516"><span class="ln">516  </span></a>             <span class="s1">[</span><span class="s4">1074</span><span class="s0">, </span><span class="s4">43</span><span class="s0">, </span><span class="s4">913</span><span class="s0">, </span><span class="s4">900</span><span class="s0">, </span><span class="s4">1135</span><span class="s0">, </span><span class="s4">1628</span><span class="s0">, </span><span class="s4">1599</span><span class="s0">, </span><span class="s4">1855</span><span class="s0">, </span><span class="s4">267</span><span class="s0">, </span><span class="s4">930</span><span class="s1">]</span><span class="s0">,</span>
+<a name="l517"><span class="ln">517  </span></a>             <span class="s1">[</span><span class="s4">456</span><span class="s0">, </span><span class="s4">151</span><span class="s0">, </span><span class="s4">1714</span><span class="s0">, </span><span class="s4">49</span><span class="s0">, </span><span class="s4">1037</span><span class="s0">, </span><span class="s4">364</span><span class="s0">, </span><span class="s4">1625</span><span class="s0">, </span><span class="s4">1352</span><span class="s0">, </span><span class="s4">767</span><span class="s0">, </span><span class="s4">1493</span><span class="s1">]</span><span class="s0">,</span>
+<a name="l518"><span class="ln">518  </span></a>             <span class="s1">[</span><span class="s4">705</span><span class="s0">, </span><span class="s4">84</span><span class="s0">, </span><span class="s4">477</span><span class="s0">, </span><span class="s4">1081</span><span class="s0">, </span><span class="s4">1613</span><span class="s0">, </span><span class="s4">1035</span><span class="s0">, </span><span class="s4">32</span><span class="s0">, </span><span class="s4">1471</span><span class="s0">, </span><span class="s4">1106</span><span class="s0">, </span><span class="s4">789</span><span class="s1">]]</span>
+<a name="l519"><span class="ln">519  </span></a>
+<a name="l520"><span class="ln">520  </span></a>        <span class="s1">envoi = str(randint(</span><span class="s4">100000000000000</span><span class="s0">, </span><span class="s4">9999999999999999</span><span class="s1">))</span>
+<a name="l521"><span class="ln">521  </span></a>        <span class="s1">date = str(datetime.now())</span>
+<a name="l522"><span class="ln">522  </span></a>
+<a name="l523"><span class="ln">523  </span></a>        <span class="s1">aa1 = date[</span><span class="s4">0</span><span class="s1">:</span><span class="s4">2</span><span class="s1">]</span>
+<a name="l524"><span class="ln">524  </span></a>        <span class="s1">aa2 = date[</span><span class="s4">2</span><span class="s1">:</span><span class="s4">4</span><span class="s1">]</span>
+<a name="l525"><span class="ln">525  </span></a>        <span class="s1">mm = date[</span><span class="s4">5</span><span class="s1">:</span><span class="s4">7</span><span class="s1">]</span>
+<a name="l526"><span class="ln">526  </span></a>        <span class="s1">jj = date[</span><span class="s4">8</span><span class="s1">:</span><span class="s4">10</span><span class="s1">]</span>
+<a name="l527"><span class="ln">527  </span></a>        <span class="s1">hh = date[</span><span class="s4">11</span><span class="s1">:</span><span class="s4">13</span><span class="s1">]</span>
+<a name="l528"><span class="ln">528  </span></a>        <span class="s1">mi = date[</span><span class="s4">14</span><span class="s1">:</span><span class="s4">16</span><span class="s1">]</span>
+<a name="l529"><span class="ln">529  </span></a>        <span class="s1">ss = date[</span><span class="s4">17</span><span class="s1">:</span><span class="s4">19</span><span class="s1">]</span>
+<a name="l530"><span class="ln">530  </span></a>        <span class="s1">cc = date[</span><span class="s4">20</span><span class="s1">:</span><span class="s4">22</span><span class="s1">]</span>
+<a name="l531"><span class="ln">531  </span></a>
+<a name="l532"><span class="ln">532  </span></a>        <span class="s1">test = list(envoi)</span>
+<a name="l533"><span class="ln">533  </span></a>        <span class="s1">date1 = [int(aa1)</span><span class="s0">, </span><span class="s1">int(aa2)</span><span class="s0">, </span><span class="s1">int(mm)</span><span class="s0">, </span><span class="s1">int(jj)</span><span class="s0">, </span><span class="s1">int(hh)</span><span class="s0">, </span><span class="s1">int(mi)</span><span class="s0">, </span><span class="s1">int(ss)</span><span class="s0">, </span><span class="s1">int(cc)]</span>
+<a name="l534"><span class="ln">534  </span></a>        <span class="s1">clef1 = transpo_clef(test)</span>
+<a name="l535"><span class="ln">535  </span></a>
+<a name="l536"><span class="ln">536  </span></a>        <span class="s1">clef = clef1 + date1</span>
+<a name="l537"><span class="ln">537  </span></a>        <span class="s1">ecrit = envoi + aa1 + aa2 + mm + jj + hh + mi + ss + cc</span>
+<a name="l538"><span class="ln">538  </span></a>
+<a name="l539"><span class="ln">539  </span></a>        <span class="s1">p = </span><span class="s4">16</span>
+<a name="l540"><span class="ln">540  </span></a>
+<a name="l541"><span class="ln">541  </span></a>        <span class="s1">a_clefx = clef[(clef[</span><span class="s4">16</span><span class="s1">]) % p]</span>
+<a name="l542"><span class="ln">542  </span></a>        <span class="s1">a_clefy = clef[(clef[</span><span class="s4">17</span><span class="s1">]) % p]</span>
+<a name="l543"><span class="ln">543  </span></a>
+<a name="l544"><span class="ln">544  </span></a>        <span class="s1">b_clefx = clef[(clef[</span><span class="s4">18</span><span class="s1">]) % p]</span>
+<a name="l545"><span class="ln">545  </span></a>        <span class="s1">b_clefy = clef[(clef[</span><span class="s4">19</span><span class="s1">]) % p]</span>
+<a name="l546"><span class="ln">546  </span></a>
+<a name="l547"><span class="ln">547  </span></a>        <span class="s1">c_clefx = clef[(clef[</span><span class="s4">20</span><span class="s1">]) % p]</span>
+<a name="l548"><span class="ln">548  </span></a>        <span class="s1">c_clefy = clef[(clef[</span><span class="s4">21</span><span class="s1">]) % p]</span>
+<a name="l549"><span class="ln">549  </span></a>
+<a name="l550"><span class="ln">550  </span></a>        <span class="s1">d_clefx = clef[(clef[</span><span class="s4">22</span><span class="s1">]) % p]</span>
+<a name="l551"><span class="ln">551  </span></a>
+<a name="l552"><span class="ln">552  </span></a>        <span class="s0">try</span><span class="s1">:</span>
+<a name="l553"><span class="ln">553  </span></a>            <span class="s1">d_clefy = clef[(clef[</span><span class="s4">23</span><span class="s1">]) % p]</span>
+<a name="l554"><span class="ln">554  </span></a>        <span class="s0">except</span><span class="s1">:</span>
+<a name="l555"><span class="ln">555  </span></a>            <span class="s1">self.dialog = MDDialog(title=</span><span class="s2">'Code check'</span><span class="s0">,</span>
+<a name="l556"><span class="ln">556  </span></a>                                   <span class="s1">text=</span><span class="s2">&quot;Error in the correct execution of the code, please restart the application&quot;</span><span class="s0">,</span>
+<a name="l557"><span class="ln">557  </span></a>                                   <span class="s1">size_hint=(</span><span class="s4">0.8</span><span class="s0">, </span><span class="s4">1</span><span class="s1">)</span><span class="s0">,</span>
+<a name="l558"><span class="ln">558  </span></a>                                   <span class="s1">buttons=[MDFlatButton(text=</span><span class="s2">'Close'</span><span class="s0">, </span><span class="s1">on_release=self.close_dialog)]</span>
+<a name="l559"><span class="ln">559  </span></a>                                   <span class="s1">)</span>
+<a name="l560"><span class="ln">560  </span></a>            <span class="s1">self.dialog.open()</span>
+<a name="l561"><span class="ln">561  </span></a>
+<a name="l562"><span class="ln">562  </span></a>        <span class="s1">a = X[a_clefx][a_clefy]</span>
+<a name="l563"><span class="ln">563  </span></a>        <span class="s1">b = X[b_clefx][b_clefy]</span>
+<a name="l564"><span class="ln">564  </span></a>        <span class="s1">c = X[c_clefx][c_clefy]</span>
+<a name="l565"><span class="ln">565  </span></a>
+<a name="l566"><span class="ln">566  </span></a>        <span class="s0">try</span><span class="s1">:</span>
+<a name="l567"><span class="ln">567  </span></a>            <span class="s1">d = X[d_clefx][d_clefy]</span>
+<a name="l568"><span class="ln">568  </span></a>        <span class="s0">except</span><span class="s1">:</span>
+<a name="l569"><span class="ln">569  </span></a>            <span class="s1">self.dialog = MDDialog(title=</span><span class="s2">'Code check'</span><span class="s0">,</span>
+<a name="l570"><span class="ln">570  </span></a>                                   <span class="s1">text=</span><span class="s2">&quot;Error in the correct execution of the code, please restart the application&quot;</span><span class="s0">,</span>
+<a name="l571"><span class="ln">571  </span></a>                                   <span class="s1">size_hint=(</span><span class="s4">0.8</span><span class="s0">, </span><span class="s4">1</span><span class="s1">)</span><span class="s0">,</span>
+<a name="l572"><span class="ln">572  </span></a>                                   <span class="s1">buttons=[MDFlatButton(text=</span><span class="s2">'Close'</span><span class="s0">, </span><span class="s1">on_release=self.close_dialog)]</span>
+<a name="l573"><span class="ln">573  </span></a>                                   <span class="s1">)</span>
+<a name="l574"><span class="ln">574  </span></a>            <span class="s1">self.dialog.open()</span>
+<a name="l575"><span class="ln">575  </span></a>
+<a name="l576"><span class="ln">576  </span></a>        <span class="s0">if </span><span class="s1">a == (len(grille_2) - </span><span class="s4">1</span><span class="s1">) </span><span class="s0">or </span><span class="s1">c == (len(grille_2[</span><span class="s4">0</span><span class="s1">]) - </span><span class="s4">1</span><span class="s1">):</span>
+<a name="l577"><span class="ln">577  </span></a>            <span class="s1">self.dialog = MDDialog(title=</span><span class="s2">'Code check'</span><span class="s0">,</span>
+<a name="l578"><span class="ln">578  </span></a>                                   <span class="s1">text=</span><span class="s2">&quot;Error in the correct execution of the code, please restart the encryption&quot;</span><span class="s0">,</span>
+<a name="l579"><span class="ln">579  </span></a>                                   <span class="s1">size_hint=(</span><span class="s4">0.8</span><span class="s0">, </span><span class="s4">1</span><span class="s1">)</span><span class="s0">,</span>
+<a name="l580"><span class="ln">580  </span></a>                                   <span class="s1">buttons=[MDFlatButton(text=</span><span class="s2">'Close'</span><span class="s0">, </span><span class="s1">on_release=self.close_dialog)]</span>
+<a name="l581"><span class="ln">581  </span></a>                                   <span class="s1">)</span>
+<a name="l582"><span class="ln">582  </span></a>            <span class="s1">self.dialog.open()</span>
+<a name="l583"><span class="ln">583  </span></a>
+<a name="l584"><span class="ln">584  </span></a>        <span class="s1">clef.pop(a_clefx)</span>
+<a name="l585"><span class="ln">585  </span></a>        <span class="s1">clef.pop(a_clefy)</span>
+<a name="l586"><span class="ln">586  </span></a>
+<a name="l587"><span class="ln">587  </span></a>        <span class="s1">clef.pop(b_clefx)</span>
+<a name="l588"><span class="ln">588  </span></a>        <span class="s1">clef.pop(b_clefy)</span>
+<a name="l589"><span class="ln">589  </span></a>
+<a name="l590"><span class="ln">590  </span></a>        <span class="s1">clef.pop(c_clefx)</span>
+<a name="l591"><span class="ln">591  </span></a>        <span class="s1">clef.pop(c_clefy)</span>
+<a name="l592"><span class="ln">592  </span></a>
+<a name="l593"><span class="ln">593  </span></a>        <span class="s1">clef.pop(d_clefx)</span>
+<a name="l594"><span class="ln">594  </span></a>        <span class="s1">clef.pop(d_clefy)</span>
+<a name="l595"><span class="ln">595  </span></a>
+<a name="l596"><span class="ln">596  </span></a>        <span class="s1">a1 = clef[</span><span class="s4">0</span><span class="s1">]</span>
+<a name="l597"><span class="ln">597  </span></a>        <span class="s1">b1 = clef[</span><span class="s4">1</span><span class="s1">]</span>
+<a name="l598"><span class="ln">598  </span></a>        <span class="s1">c1 = clef[</span><span class="s4">2</span><span class="s1">]</span>
+<a name="l599"><span class="ln">599  </span></a>        <span class="s1">d1 = clef[</span><span class="s4">3</span><span class="s1">]</span>
+<a name="l600"><span class="ln">600  </span></a>
+<a name="l601"><span class="ln">601  </span></a>        <span class="s0">def </span><span class="s1">rotate(lst</span><span class="s0">, </span><span class="s1">x):</span>
+<a name="l602"><span class="ln">602  </span></a>            <span class="s0">if </span><span class="s1">x &gt;= </span><span class="s4">0</span><span class="s1">:</span>
+<a name="l603"><span class="ln">603  </span></a>                <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">range(x):</span>
+<a name="l604"><span class="ln">604  </span></a>                    <span class="s1">lastNum = lst.pop(-</span><span class="s4">1</span><span class="s1">)</span>
+<a name="l605"><span class="ln">605  </span></a>                    <span class="s1">lst.insert(</span><span class="s4">0</span><span class="s0">, </span><span class="s1">lastNum)</span>
+<a name="l606"><span class="ln">606  </span></a>            <span class="s0">else</span><span class="s1">:</span>
+<a name="l607"><span class="ln">607  </span></a>                <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">range(abs(x)):</span>
+<a name="l608"><span class="ln">608  </span></a>                    <span class="s1">firstNum = lst.pop(</span><span class="s4">0</span><span class="s1">)</span>
+<a name="l609"><span class="ln">609  </span></a>                    <span class="s1">lst.append(firstNum)</span>
+<a name="l610"><span class="ln">610  </span></a>            <span class="s0">return </span><span class="s1">lst</span>
+<a name="l611"><span class="ln">611  </span></a>
+<a name="l612"><span class="ln">612  </span></a>        <span class="s0">def </span><span class="s1">rotate_crypte(img</span><span class="s0">, </span><span class="s1">a</span><span class="s0">, </span><span class="s1">b</span><span class="s0">, </span><span class="s1">c</span><span class="s0">, </span><span class="s1">d):</span>
+<a name="l613"><span class="ln">613  </span></a>            <span class="s1">x_img</span><span class="s0">, </span><span class="s1">y_img = img.size</span>
+<a name="l614"><span class="ln">614  </span></a>            <span class="s1">a = a % </span><span class="s4">3</span>
+<a name="l615"><span class="ln">615  </span></a>            <span class="s1">b = b % </span><span class="s4">3</span>
+<a name="l616"><span class="ln">616  </span></a>            <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">range(x_img):</span>
+<a name="l617"><span class="ln">617  </span></a>                <span class="s0">for </span><span class="s1">j </span><span class="s0">in </span><span class="s1">range(y_img):</span>
+<a name="l618"><span class="ln">618  </span></a>                    <span class="s1">(R</span><span class="s0">, </span><span class="s1">V</span><span class="s0">, </span><span class="s1">B) = img.getpixel((i</span><span class="s0">, </span><span class="s1">j))</span>
+<a name="l619"><span class="ln">619  </span></a>                    <span class="s0">if </span><span class="s1">j % </span><span class="s4">2 </span><span class="s1">== </span><span class="s4">0 </span><span class="s0">and </span><span class="s1">i % </span><span class="s4">2 </span><span class="s1">== </span><span class="s4">0</span><span class="s1">:</span>
+<a name="l620"><span class="ln">620  </span></a>                        <span class="s1">rot = rotate([R</span><span class="s0">, </span><span class="s1">V</span><span class="s0">, </span><span class="s1">B]</span><span class="s0">, </span><span class="s1">a)</span>
+<a name="l621"><span class="ln">621  </span></a>                    <span class="s0">if </span><span class="s1">j % </span><span class="s4">2 </span><span class="s1">== </span><span class="s4">1 </span><span class="s0">and </span><span class="s1">i % </span><span class="s4">2 </span><span class="s1">== </span><span class="s4">1</span><span class="s1">:</span>
+<a name="l622"><span class="ln">622  </span></a>                        <span class="s1">rot = rotate([R</span><span class="s0">, </span><span class="s1">V</span><span class="s0">, </span><span class="s1">B]</span><span class="s0">, </span><span class="s1">b)</span>
+<a name="l623"><span class="ln">623  </span></a>                    <span class="s0">if </span><span class="s1">i % </span><span class="s4">2 </span><span class="s1">== </span><span class="s4">0 </span><span class="s0">and </span><span class="s1">j % </span><span class="s4">2 </span><span class="s1">== </span><span class="s4">1</span><span class="s1">:</span>
+<a name="l624"><span class="ln">624  </span></a>                        <span class="s1">rot = rotate([R</span><span class="s0">, </span><span class="s1">V</span><span class="s0">, </span><span class="s1">B]</span><span class="s0">, </span><span class="s1">c)</span>
+<a name="l625"><span class="ln">625  </span></a>                    <span class="s0">if </span><span class="s1">i % </span><span class="s4">2 </span><span class="s1">== </span><span class="s4">1 </span><span class="s0">and </span><span class="s1">j % </span><span class="s4">2 </span><span class="s1">== </span><span class="s4">1</span><span class="s1">:</span>
+<a name="l626"><span class="ln">626  </span></a>                        <span class="s1">rot = rotate([R</span><span class="s0">, </span><span class="s1">V</span><span class="s0">, </span><span class="s1">B]</span><span class="s0">, </span><span class="s1">d)</span>
+<a name="l627"><span class="ln">627  </span></a>
+<a name="l628"><span class="ln">628  </span></a>                    <span class="s1">img.putpixel((i</span><span class="s0">, </span><span class="s1">j)</span><span class="s0">, </span><span class="s1">(rot[</span><span class="s4">0</span><span class="s1">]</span><span class="s0">, </span><span class="s1">rot[</span><span class="s4">1</span><span class="s1">]</span><span class="s0">, </span><span class="s1">rot[</span><span class="s4">2</span><span class="s1">]))</span>
+<a name="l629"><span class="ln">629  </span></a>
+<a name="l630"><span class="ln">630  </span></a>        <span class="s0">def </span><span class="s1">cryptage_img(img):</span>
+<a name="l631"><span class="ln">631  </span></a>            <span class="s1">grille_2 = quadrillage(img)</span>
+<a name="l632"><span class="ln">632  </span></a>            <span class="s1">grille_crypte2 = cryptage(img_source)</span>
+<a name="l633"><span class="ln">633  </span></a>            <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">range(</span><span class="s4">1</span><span class="s0">, </span><span class="s1">len(grille_2)):</span>
+<a name="l634"><span class="ln">634  </span></a>                <span class="s0">for </span><span class="s1">j </span><span class="s0">in </span><span class="s1">range(</span><span class="s4">1</span><span class="s0">, </span><span class="s1">len(grille_2[</span><span class="s4">0</span><span class="s1">])):</span>
+<a name="l635"><span class="ln">635  </span></a>                    <span class="s1">bloc_img = img.getpixel(grille_2[i][j])</span>
+<a name="l636"><span class="ln">636  </span></a>                    <span class="s1">fond_crypte.putpixel(grille_crypte2[i][j]</span><span class="s0">, </span><span class="s1">bloc_img)</span>
+<a name="l637"><span class="ln">637  </span></a>
+<a name="l638"><span class="ln">638  </span></a>        <span class="s1">grille_2 = quadrillage(img_source)</span>
+<a name="l639"><span class="ln">639  </span></a>        <span class="s1">x_lim</span><span class="s0">, </span><span class="s1">y_lim = grille_2[len(grille_2) - </span><span class="s4">1</span><span class="s1">][len(grille_2[</span><span class="s4">0</span><span class="s1">]) - </span><span class="s4">1</span><span class="s1">]</span>
+<a name="l640"><span class="ln">640  </span></a>
+<a name="l641"><span class="ln">641  </span></a>        <span class="s1">dep1 = time.time()</span>
+<a name="l642"><span class="ln">642  </span></a>        <span class="s1">rotate_crypte(img_source</span><span class="s0">, </span><span class="s1">a1</span><span class="s0">, </span><span class="s1">b1</span><span class="s0">, </span><span class="s1">c1</span><span class="s0">, </span><span class="s1">d1)</span>
+<a name="l643"><span class="ln">643  </span></a>        <span class="s1">cryptage_img(img_source)</span>
+<a name="l644"><span class="ln">644  </span></a>        <span class="s1">arv1 = time.time()</span>
+<a name="l645"><span class="ln">645  </span></a>
+<a name="l646"><span class="ln">646  </span></a>        <span class="s1">test_crypte = fond_crypte.crop((</span><span class="s4">0</span><span class="s0">, </span><span class="s4">0</span><span class="s0">, </span><span class="s1">x_lim + pas</span><span class="s0">, </span><span class="s1">y_lim + pas))</span>
+<a name="l647"><span class="ln">647  </span></a>        <span class="s1">test_crypte.save(path_crypte + </span><span class="s2">&quot;image_.bmp&quot;</span><span class="s1">)</span>
+<a name="l648"><span class="ln">648  </span></a>
+<a name="l649"><span class="ln">649  </span></a>        <span class="s1">num = </span><span class="s4">60</span>
+<a name="l650"><span class="ln">650  </span></a>
+<a name="l651"><span class="ln">651  </span></a>        <span class="s0">def </span><span class="s1">getANewKey():</span>
+<a name="l652"><span class="ln">652  </span></a>            <span class="s1">keyValList = []</span>
+<a name="l653"><span class="ln">653  </span></a>            <span class="s1">numo = num</span>
+<a name="l654"><span class="ln">654  </span></a>            <span class="s0">if </span><span class="s1">num &lt; </span><span class="s4">10</span><span class="s1">:</span>
+<a name="l655"><span class="ln">655  </span></a>                <span class="s1">numo = </span><span class="s4">10</span>
+<a name="l656"><span class="ln">656  </span></a>            <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">range(</span><span class="s4">10</span><span class="s1">):</span>
+<a name="l657"><span class="ln">657  </span></a>                <span class="s1">keyValList.append(chr(</span><span class="s4">48 </span><span class="s1">+ x))</span>
+<a name="l658"><span class="ln">658  </span></a>                <span class="s1">numo = numo - </span><span class="s4">1</span>
+<a name="l659"><span class="ln">659  </span></a>            <span class="s0">if </span><span class="s1">(numo &gt; </span><span class="s4">0 </span><span class="s0">and </span><span class="s1">numo &lt; </span><span class="s4">26</span><span class="s1">):</span>
+<a name="l660"><span class="ln">660  </span></a>                <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">range(numo):</span>
+<a name="l661"><span class="ln">661  </span></a>                    <span class="s1">keyValList.append(chr(</span><span class="s4">65 </span><span class="s1">+ x))</span>
+<a name="l662"><span class="ln">662  </span></a>                    <span class="s1">numo = numo - </span><span class="s4">1</span>
+<a name="l663"><span class="ln">663  </span></a>            <span class="s0">elif </span><span class="s1">numo &gt; </span><span class="s4">0 </span><span class="s0">and </span><span class="s1">numo &gt; </span><span class="s4">26</span><span class="s1">:</span>
+<a name="l664"><span class="ln">664  </span></a>                <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">range(</span><span class="s4">26</span><span class="s1">):</span>
+<a name="l665"><span class="ln">665  </span></a>                    <span class="s1">keyValList.append(chr(</span><span class="s4">65 </span><span class="s1">+ x))</span>
+<a name="l666"><span class="ln">666  </span></a>                    <span class="s1">numo = numo - </span><span class="s4">1</span>
+<a name="l667"><span class="ln">667  </span></a>                <span class="s0">if </span><span class="s1">numo &lt; </span><span class="s4">26</span><span class="s1">:</span>
+<a name="l668"><span class="ln">668  </span></a>                    <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">range(numo):</span>
+<a name="l669"><span class="ln">669  </span></a>                        <span class="s1">keyValList.append(chr(</span><span class="s4">97 </span><span class="s1">+ x))</span>
+<a name="l670"><span class="ln">670  </span></a>                        <span class="s1">numo = numo - </span><span class="s4">1</span>
+<a name="l671"><span class="ln">671  </span></a>                <span class="s0">else</span><span class="s1">:</span>
+<a name="l672"><span class="ln">672  </span></a>                    <span class="s1">print(</span><span class="s2">&quot;num trop grand&quot;</span><span class="s1">)</span>
+<a name="l673"><span class="ln">673  </span></a>                    <span class="s0">return</span>
+<a name="l674"><span class="ln">674  </span></a>            <span class="s1">key = </span><span class="s2">&quot;&quot;</span>
+<a name="l675"><span class="ln">675  </span></a>            <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">range(len(keyValList)):</span>
+<a name="l676"><span class="ln">676  </span></a>                <span class="s1">newC = random.choice(keyValList)</span>
+<a name="l677"><span class="ln">677  </span></a>                <span class="s1">keyValList.remove(newC)</span>
+<a name="l678"><span class="ln">678  </span></a>                <span class="s1">key = key + newC</span>
+<a name="l679"><span class="ln">679  </span></a>            <span class="s0">return </span><span class="s1">key</span>
+<a name="l680"><span class="ln">680  </span></a>
+<a name="l681"><span class="ln">681  </span></a>        <span class="s0">def </span><span class="s1">getANumericalKey(key):</span>
+<a name="l682"><span class="ln">682  </span></a>            <span class="s1">keyValListP = []</span>
+<a name="l683"><span class="ln">683  </span></a>            <span class="s1">numo = len(key)</span>
+<a name="l684"><span class="ln">684  </span></a>            <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">range(</span><span class="s4">10</span><span class="s1">):</span>
+<a name="l685"><span class="ln">685  </span></a>                <span class="s1">keyValListP.append(chr(</span><span class="s4">48 </span><span class="s1">+ x))</span>
+<a name="l686"><span class="ln">686  </span></a>                <span class="s1">numo = numo - </span><span class="s4">1</span>
+<a name="l687"><span class="ln">687  </span></a>            <span class="s0">if </span><span class="s1">(numo &gt; </span><span class="s4">0 </span><span class="s0">and </span><span class="s1">numo &lt; </span><span class="s4">26</span><span class="s1">):</span>
+<a name="l688"><span class="ln">688  </span></a>                <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">range(numo):</span>
+<a name="l689"><span class="ln">689  </span></a>                    <span class="s1">keyValListP.append(chr(</span><span class="s4">65 </span><span class="s1">+ x))</span>
+<a name="l690"><span class="ln">690  </span></a>                    <span class="s1">numo = numo - </span><span class="s4">1</span>
+<a name="l691"><span class="ln">691  </span></a>            <span class="s0">elif </span><span class="s1">numo &gt; </span><span class="s4">0 </span><span class="s0">and </span><span class="s1">numo &gt; </span><span class="s4">26</span><span class="s1">:</span>
+<a name="l692"><span class="ln">692  </span></a>                <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">range(</span><span class="s4">26</span><span class="s1">):</span>
+<a name="l693"><span class="ln">693  </span></a>                    <span class="s1">keyValListP.append(chr(</span><span class="s4">65 </span><span class="s1">+ x))</span>
+<a name="l694"><span class="ln">694  </span></a>                    <span class="s1">numo = numo - </span><span class="s4">1</span>
+<a name="l695"><span class="ln">695  </span></a>                <span class="s0">if </span><span class="s1">numo &lt; </span><span class="s4">26</span><span class="s1">:</span>
+<a name="l696"><span class="ln">696  </span></a>                    <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">range(numo):</span>
+<a name="l697"><span class="ln">697  </span></a>                        <span class="s1">keyValListP.append(chr(</span><span class="s4">97 </span><span class="s1">+ x))</span>
+<a name="l698"><span class="ln">698  </span></a>                        <span class="s1">numo = numo - </span><span class="s4">1</span>
+<a name="l699"><span class="ln">699  </span></a>                <span class="s0">else</span><span class="s1">:</span>
+<a name="l700"><span class="ln">700  </span></a>                    <span class="s1">print(</span><span class="s2">&quot;key.lengh trop grand&quot;</span><span class="s1">)</span>
+<a name="l701"><span class="ln">701  </span></a>                    <span class="s0">return</span>
+<a name="l702"><span class="ln">702  </span></a>            <span class="s1">keyValList = []</span>
+<a name="l703"><span class="ln">703  </span></a>            <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">range(len(key)):</span>
+<a name="l704"><span class="ln">704  </span></a>                <span class="s1">keyValList.append(key[x])</span>
+<a name="l705"><span class="ln">705  </span></a>            <span class="s1">keyNumValList = []</span>
+<a name="l706"><span class="ln">706  </span></a>            <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">range(len(keyValList)):</span>
+<a name="l707"><span class="ln">707  </span></a>                <span class="s1">keyNumValList.append(keyValListP.index(keyValList[x]))</span>
+<a name="l708"><span class="ln">708  </span></a>            <span class="s0">return </span><span class="s1">keyNumValList</span>
+<a name="l709"><span class="ln">709  </span></a>
+<a name="l710"><span class="ln">710  </span></a>        <span class="s0">def </span><span class="s1">generateOneComplexCrypt(img</span><span class="s0">, </span><span class="s1">imgName</span><span class="s0">, </span><span class="s1">numKey):</span>
+<a name="l711"><span class="ln">711  </span></a>            <span class="s1">complexList = []</span>
+<a name="l712"><span class="ln">712  </span></a>            <span class="s1">complexList.append([])</span>
+<a name="l713"><span class="ln">713  </span></a>            <span class="s1">complexList.append([])</span>
+<a name="l714"><span class="ln">714  </span></a>            <span class="s1">complexList.append([])</span>
+<a name="l715"><span class="ln">715  </span></a>            <span class="s1">complexList.append([])</span>
+<a name="l716"><span class="ln">716  </span></a>            <span class="s1">complexList[</span><span class="s4">0</span><span class="s1">].append(img.size)</span>
+<a name="l717"><span class="ln">717  </span></a>            <span class="s1">complexList[</span><span class="s4">0</span><span class="s1">].append(imgName[:len(imgName) - </span><span class="s4">4</span><span class="s1">])</span>
+<a name="l718"><span class="ln">718  </span></a>            <span class="s1">complexList[</span><span class="s4">1</span><span class="s1">].append(RGBrotationForward(numKey[</span><span class="s4">0</span><span class="s1">] % </span><span class="s4">3</span><span class="s0">, </span><span class="s1">getPixels(get3RGB(img))))</span>
+<a name="l719"><span class="ln">719  </span></a>            <span class="s1">complexList[</span><span class="s4">2</span><span class="s1">].append([])</span>
+<a name="l720"><span class="ln">720  </span></a>            <span class="s1">complexList[</span><span class="s4">2</span><span class="s1">].append([])</span>
+<a name="l721"><span class="ln">721  </span></a>            <span class="s1">complexList[</span><span class="s4">2</span><span class="s1">].append([])</span>
+<a name="l722"><span class="ln">722  </span></a>            <span class="s0">return </span><span class="s1">complexList</span>
+<a name="l723"><span class="ln">723  </span></a>
+<a name="l724"><span class="ln">724  </span></a>        <span class="s0">def </span><span class="s1">encodeImgPixels(imgList</span><span class="s0">, </span><span class="s1">numericalKey):</span>
+<a name="l725"><span class="ln">725  </span></a>            <span class="s1">i = </span><span class="s4">0</span>
+<a name="l726"><span class="ln">726  </span></a>            <span class="s0">while </span><span class="s1">len(imgList[</span><span class="s4">1</span><span class="s1">][i]) / len(numericalKey) &gt; </span><span class="s4">1</span><span class="s1">:</span>
+<a name="l727"><span class="ln">727  </span></a>                <span class="s1">imgList[</span><span class="s4">1</span><span class="s1">].append([])</span>
+<a name="l728"><span class="ln">728  </span></a>                <span class="s1">imgList[</span><span class="s4">1</span><span class="s1">][i]</span><span class="s0">, </span><span class="s1">imgList[</span><span class="s4">1</span><span class="s1">][i + </span><span class="s4">1</span><span class="s1">] = encodeAList(imgList[</span><span class="s4">1</span><span class="s1">][i]</span><span class="s0">, </span><span class="s1">numericalKey)</span>
+<a name="l729"><span class="ln">729  </span></a>                <span class="s1">i = i + </span><span class="s4">1</span>
+<a name="l730"><span class="ln">730  </span></a>            <span class="s0">return </span><span class="s1">imgList</span>
+<a name="l731"><span class="ln">731  </span></a>
+<a name="l732"><span class="ln">732  </span></a>        <span class="s0">def </span><span class="s1">recreateImgPixelsRGBList(complex_img):</span>
+<a name="l733"><span class="ln">733  </span></a>            <span class="s1">pixelslisto = []</span>
+<a name="l734"><span class="ln">734  </span></a>            <span class="s3"># print(complex_img[1])</span>
+<a name="l735"><span class="ln">735  </span></a>            <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">range(len(complex_img[</span><span class="s4">1</span><span class="s1">]) - </span><span class="s4">1</span><span class="s1">):</span>
+<a name="l736"><span class="ln">736  </span></a>                <span class="s1">pixelslisto.append([])</span>
+<a name="l737"><span class="ln">737  </span></a>                <span class="s0">if </span><span class="s1">x == </span><span class="s4">0</span><span class="s1">:</span>
+<a name="l738"><span class="ln">738  </span></a>                    <span class="s3"># print(complex_img[1][-1])</span>
+<a name="l739"><span class="ln">739  </span></a>                    <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">range(len(complex_img[</span><span class="s4">1</span><span class="s1">][-</span><span class="s4">1</span><span class="s1">])):</span>
+<a name="l740"><span class="ln">740  </span></a>                        <span class="s0">for </span><span class="s1">j </span><span class="s0">in </span><span class="s1">range(len(complex_img[</span><span class="s4">1</span><span class="s1">][-</span><span class="s4">1</span><span class="s1">][i])):</span>
+<a name="l741"><span class="ln">741  </span></a>                            <span class="s1">pixelslisto[x].append(complex_img[</span><span class="s4">1</span><span class="s1">][-</span><span class="s4">1</span><span class="s1">][i][j])</span>
+<a name="l742"><span class="ln">742  </span></a>                <span class="s0">else</span><span class="s1">:</span>
+<a name="l743"><span class="ln">743  </span></a>                    <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">range(len(pixelslisto[x - </span><span class="s4">1</span><span class="s1">])):</span>
+<a name="l744"><span class="ln">744  </span></a>                        <span class="s0">for </span><span class="s1">j </span><span class="s0">in </span><span class="s1">range(len(pixelslisto[x - </span><span class="s4">1</span><span class="s1">][i])):</span>
+<a name="l745"><span class="ln">745  </span></a>                            <span class="s1">pixelslisto[x].append(pixelslisto[x - </span><span class="s4">1</span><span class="s1">][i][j])</span>
+<a name="l746"><span class="ln">746  </span></a>                        <span class="s0">if </span><span class="s1">x == </span><span class="s4">1</span><span class="s1">:</span>
+<a name="l747"><span class="ln">747  </span></a>                            <span class="s3"># print(len(pixelslisto[x-1][i]))</span>
+<a name="l748"><span class="ln">748  </span></a>                            <span class="s0">pass</span>
+<a name="l749"><span class="ln">749  </span></a>                <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">range(len(complex_img[</span><span class="s4">1</span><span class="s1">][len(complex_img[</span><span class="s4">1</span><span class="s1">]) - x - </span><span class="s4">2</span><span class="s1">])):</span>
+<a name="l750"><span class="ln">750  </span></a>                    <span class="s1">pixelslisto[x].append(complex_img[</span><span class="s4">1</span><span class="s1">][len(complex_img[</span><span class="s4">1</span><span class="s1">]) - x - </span><span class="s4">2</span><span class="s1">][i])</span>
+<a name="l751"><span class="ln">751  </span></a>            <span class="s3"># print(pixelslisto[1][len(pixelslisto[1])-2])</span>
+<a name="l752"><span class="ln">752  </span></a>            <span class="s3"># print(pixelslisto[0][0][0])</span>
+<a name="l753"><span class="ln">753  </span></a>            <span class="s1">rlist = []</span>
+<a name="l754"><span class="ln">754  </span></a>            <span class="s1">glist = []</span>
+<a name="l755"><span class="ln">755  </span></a>            <span class="s1">blist = []</span>
+<a name="l756"><span class="ln">756  </span></a>            <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">range(len(pixelslisto[-</span><span class="s4">1</span><span class="s1">])):</span>
+<a name="l757"><span class="ln">757  </span></a>                <span class="s1">rlist.append(pixelslisto[-</span><span class="s4">1</span><span class="s1">][x][</span><span class="s4">0</span><span class="s1">])</span>
+<a name="l758"><span class="ln">758  </span></a>                <span class="s1">glist.append(pixelslisto[-</span><span class="s4">1</span><span class="s1">][x][</span><span class="s4">1</span><span class="s1">])</span>
+<a name="l759"><span class="ln">759  </span></a>                <span class="s0">if </span><span class="s1">len(pixelslisto[-</span><span class="s4">1</span><span class="s1">][x]) != </span><span class="s4">3</span><span class="s1">:</span>
+<a name="l760"><span class="ln">760  </span></a>                    <span class="s1">print(</span><span class="s2">&quot;huh&quot; </span><span class="s1">+ str(x))</span>
+<a name="l761"><span class="ln">761  </span></a>                    <span class="s1">print(pixelslisto[-</span><span class="s4">1</span><span class="s1">][x])</span>
+<a name="l762"><span class="ln">762  </span></a>                <span class="s1">blist.append(pixelslisto[-</span><span class="s4">1</span><span class="s1">][x][</span><span class="s4">2</span><span class="s1">])</span>
+<a name="l763"><span class="ln">763  </span></a>            <span class="s0">return </span><span class="s1">rlist</span><span class="s0">, </span><span class="s1">glist</span><span class="s0">, </span><span class="s1">blist</span>
+<a name="l764"><span class="ln">764  </span></a>
+<a name="l765"><span class="ln">765  </span></a>        <span class="s0">def </span><span class="s1">createAnImage(size</span><span class="s0">, </span><span class="s1">name</span><span class="s0">, </span><span class="s1">RGB):</span>
+<a name="l766"><span class="ln">766  </span></a>            <span class="s1">imgnr = Image.new(</span><span class="s2">&quot;L&quot;</span><span class="s0">, </span><span class="s1">size)</span>
+<a name="l767"><span class="ln">767  </span></a>            <span class="s1">imgnr.putdata(RGB[</span><span class="s4">0</span><span class="s1">])</span>
+<a name="l768"><span class="ln">768  </span></a>            <span class="s1">imgng = Image.new(</span><span class="s2">&quot;L&quot;</span><span class="s0">, </span><span class="s1">size)</span>
+<a name="l769"><span class="ln">769  </span></a>            <span class="s1">imgng.putdata(RGB[</span><span class="s4">1</span><span class="s1">])</span>
+<a name="l770"><span class="ln">770  </span></a>            <span class="s1">imgnb = Image.new(</span><span class="s2">&quot;L&quot;</span><span class="s0">, </span><span class="s1">size)</span>
+<a name="l771"><span class="ln">771  </span></a>            <span class="s1">imgnb.putdata(RGB[</span><span class="s4">2</span><span class="s1">])</span>
+<a name="l772"><span class="ln">772  </span></a>            <span class="s1">imgnew = Image.merge(</span><span class="s2">&quot;RGB&quot;</span><span class="s0">, </span><span class="s1">(imgnr</span><span class="s0">, </span><span class="s1">imgng</span><span class="s0">, </span><span class="s1">imgnb))</span>
+<a name="l773"><span class="ln">773  </span></a>            <span class="s1">imgnew.save(name)</span>
+<a name="l774"><span class="ln">774  </span></a>            <span class="s0">return</span>
+<a name="l775"><span class="ln">775  </span></a>
+<a name="l776"><span class="ln">776  </span></a>        <span class="s0">def </span><span class="s1">RGBrotationForward(rotationP</span><span class="s0">, </span><span class="s1">pixels):</span>
+<a name="l777"><span class="ln">777  </span></a>            <span class="s1">newpix = []</span>
+<a name="l778"><span class="ln">778  </span></a>            <span class="s1">lastpix = []</span>
+<a name="l779"><span class="ln">779  </span></a>            <span class="s1">delindex = []</span>
+<a name="l780"><span class="ln">780  </span></a>            <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">range(len(pixels) % </span><span class="s4">3</span><span class="s1">):</span>
+<a name="l781"><span class="ln">781  </span></a>                <span class="s1">lastpix.append(pixels[(len(pixels) - len(pixels) % </span><span class="s4">3</span><span class="s1">) + x])</span>
+<a name="l782"><span class="ln">782  </span></a>                <span class="s1">delindex.append((len(pixels) - len(pixels) % </span><span class="s4">3</span><span class="s1">) + x)</span>
+<a name="l783"><span class="ln">783  </span></a>
+<a name="l784"><span class="ln">784  </span></a>            <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">range(len(delindex)):</span>
+<a name="l785"><span class="ln">785  </span></a>                <span class="s1">pixels.pop(delindex[len(delindex) - x - </span><span class="s4">1</span><span class="s1">])</span>
+<a name="l786"><span class="ln">786  </span></a>            <span class="s0">if </span><span class="s1">rotationP == </span><span class="s4">0</span><span class="s1">:</span>
+<a name="l787"><span class="ln">787  </span></a>                <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">range(int(len(pixels) / </span><span class="s4">3</span><span class="s1">)):</span>
+<a name="l788"><span class="ln">788  </span></a>                    <span class="s1">newpix.append(pixels[x * </span><span class="s4">3</span><span class="s1">])</span>
+<a name="l789"><span class="ln">789  </span></a>                    <span class="s1">newpix.append([pixels[x * </span><span class="s4">3 </span><span class="s1">+ </span><span class="s4">1</span><span class="s1">][</span><span class="s4">2</span><span class="s1">]</span><span class="s0">, </span><span class="s1">pixels[x * </span><span class="s4">3 </span><span class="s1">+ </span><span class="s4">1</span><span class="s1">][</span><span class="s4">0</span><span class="s1">]</span><span class="s0">, </span><span class="s1">pixels[x * </span><span class="s4">3 </span><span class="s1">+ </span><span class="s4">1</span><span class="s1">][</span><span class="s4">1</span><span class="s1">]])</span>
+<a name="l790"><span class="ln">790  </span></a>                    <span class="s1">newpix.append([pixels[x * </span><span class="s4">3 </span><span class="s1">+ </span><span class="s4">2</span><span class="s1">][</span><span class="s4">1</span><span class="s1">]</span><span class="s0">, </span><span class="s1">pixels[x * </span><span class="s4">3 </span><span class="s1">+ </span><span class="s4">2</span><span class="s1">][</span><span class="s4">2</span><span class="s1">]</span><span class="s0">, </span><span class="s1">pixels[x * </span><span class="s4">3 </span><span class="s1">+ </span><span class="s4">2</span><span class="s1">][</span><span class="s4">0</span><span class="s1">]])</span>
+<a name="l791"><span class="ln">791  </span></a>            <span class="s0">elif </span><span class="s1">rotationP == </span><span class="s4">1</span><span class="s1">:</span>
+<a name="l792"><span class="ln">792  </span></a>                <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">range(int(len(pixels) / </span><span class="s4">3</span><span class="s1">)):</span>
+<a name="l793"><span class="ln">793  </span></a>                    <span class="s1">newpix.append([pixels[x * </span><span class="s4">3</span><span class="s1">][</span><span class="s4">1</span><span class="s1">]</span><span class="s0">, </span><span class="s1">pixels[x * </span><span class="s4">3</span><span class="s1">][</span><span class="s4">2</span><span class="s1">]</span><span class="s0">, </span><span class="s1">pixels[x * </span><span class="s4">3</span><span class="s1">][</span><span class="s4">0</span><span class="s1">]])</span>
+<a name="l794"><span class="ln">794  </span></a>                    <span class="s1">newpix.append(pixels[x * </span><span class="s4">3 </span><span class="s1">+ </span><span class="s4">1</span><span class="s1">])</span>
+<a name="l795"><span class="ln">795  </span></a>                    <span class="s1">newpix.append([pixels[x * </span><span class="s4">3 </span><span class="s1">+ </span><span class="s4">2</span><span class="s1">][</span><span class="s4">2</span><span class="s1">]</span><span class="s0">, </span><span class="s1">pixels[x * </span><span class="s4">3 </span><span class="s1">+ </span><span class="s4">2</span><span class="s1">][</span><span class="s4">0</span><span class="s1">]</span><span class="s0">, </span><span class="s1">pixels[x * </span><span class="s4">3 </span><span class="s1">+ </span><span class="s4">2</span><span class="s1">][</span><span class="s4">1</span><span class="s1">]])</span>
+<a name="l796"><span class="ln">796  </span></a>            <span class="s0">elif </span><span class="s1">rotationP == </span><span class="s4">2</span><span class="s1">:</span>
+<a name="l797"><span class="ln">797  </span></a>                <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">range(int(len(pixels) / </span><span class="s4">3</span><span class="s1">)):</span>
+<a name="l798"><span class="ln">798  </span></a>                    <span class="s1">newpix.append([pixels[x * </span><span class="s4">3</span><span class="s1">][</span><span class="s4">2</span><span class="s1">]</span><span class="s0">, </span><span class="s1">pixels[x * </span><span class="s4">3</span><span class="s1">][</span><span class="s4">0</span><span class="s1">]</span><span class="s0">, </span><span class="s1">pixels[x * </span><span class="s4">3</span><span class="s1">][</span><span class="s4">1</span><span class="s1">]])</span>
+<a name="l799"><span class="ln">799  </span></a>                    <span class="s1">newpix.append([pixels[x * </span><span class="s4">3 </span><span class="s1">+ </span><span class="s4">1</span><span class="s1">][</span><span class="s4">1</span><span class="s1">]</span><span class="s0">, </span><span class="s1">pixels[x * </span><span class="s4">3 </span><span class="s1">+ </span><span class="s4">1</span><span class="s1">][</span><span class="s4">2</span><span class="s1">]</span><span class="s0">, </span><span class="s1">pixels[x * </span><span class="s4">3 </span><span class="s1">+ </span><span class="s4">1</span><span class="s1">][</span><span class="s4">0</span><span class="s1">]])</span>
+<a name="l800"><span class="ln">800  </span></a>                    <span class="s1">newpix.append(pixels[x * </span><span class="s4">3 </span><span class="s1">+ </span><span class="s4">2</span><span class="s1">])</span>
+<a name="l801"><span class="ln">801  </span></a>            <span class="s0">else</span><span class="s1">:</span>
+<a name="l802"><span class="ln">802  </span></a>                <span class="s1">newpix = pixels</span>
+<a name="l803"><span class="ln">803  </span></a>
+<a name="l804"><span class="ln">804  </span></a>            <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">range(len(lastpix)):</span>
+<a name="l805"><span class="ln">805  </span></a>                <span class="s1">newpix.append(lastpix[x])</span>
+<a name="l806"><span class="ln">806  </span></a>            <span class="s0">return </span><span class="s1">newpix</span>
+<a name="l807"><span class="ln">807  </span></a>
+<a name="l808"><span class="ln">808  </span></a>        <span class="s0">def </span><span class="s1">getPixels(img_rgb):</span>
+<a name="l809"><span class="ln">809  </span></a>            <span class="s1">pixels = []</span>
+<a name="l810"><span class="ln">810  </span></a>            <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">range(len(img_rgb[</span><span class="s4">0</span><span class="s1">])):</span>
+<a name="l811"><span class="ln">811  </span></a>                <span class="s1">pixels.append([img_rgb[</span><span class="s4">0</span><span class="s1">][x]</span><span class="s0">, </span><span class="s1">img_rgb[</span><span class="s4">1</span><span class="s1">][x]</span><span class="s0">, </span><span class="s1">img_rgb[</span><span class="s4">2</span><span class="s1">][x]])</span>
+<a name="l812"><span class="ln">812  </span></a>            <span class="s0">return </span><span class="s1">pixels</span>
+<a name="l813"><span class="ln">813  </span></a>
+<a name="l814"><span class="ln">814  </span></a>        <span class="s0">def </span><span class="s1">get3RGB(img):</span>
+<a name="l815"><span class="ln">815  </span></a>            <span class="s0">try</span><span class="s1">:</span>
+<a name="l816"><span class="ln">816  </span></a>                <span class="s1">spliter = img.split()</span>
+<a name="l817"><span class="ln">817  </span></a>            <span class="s0">except</span><span class="s1">:</span>
+<a name="l818"><span class="ln">818  </span></a>                <span class="s1">print(</span><span class="s2">&quot;Erreur en rapport avec l'image selectionnée&quot;</span><span class="s1">)</span>
+<a name="l819"><span class="ln">819  </span></a>            <span class="s1">r = list(spliter[</span><span class="s4">0</span><span class="s1">].getdata())</span>
+<a name="l820"><span class="ln">820  </span></a>            <span class="s1">g = list(spliter[</span><span class="s4">1</span><span class="s1">].getdata())</span>
+<a name="l821"><span class="ln">821  </span></a>            <span class="s1">b = list(spliter[</span><span class="s4">2</span><span class="s1">].getdata())</span>
+<a name="l822"><span class="ln">822  </span></a>            <span class="s0">return </span><span class="s1">r</span><span class="s0">, </span><span class="s1">g</span><span class="s0">, </span><span class="s1">b</span>
+<a name="l823"><span class="ln">823  </span></a>
+<a name="l824"><span class="ln">824  </span></a>        <span class="s0">def </span><span class="s1">encodeAList(pixelsList</span><span class="s0">, </span><span class="s1">numericalKey):</span>
+<a name="l825"><span class="ln">825  </span></a>            <span class="s1">lastPixelsList = []</span>
+<a name="l826"><span class="ln">826  </span></a>            <span class="s1">newPackage = []</span>
+<a name="l827"><span class="ln">827  </span></a>            <span class="s1">indexremovelist = []</span>
+<a name="l828"><span class="ln">828  </span></a>            <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">range(len(pixelsList) % len(numericalKey)):</span>
+<a name="l829"><span class="ln">829  </span></a>                <span class="s1">lastPixelsList.append(pixelsList[((len(pixelsList) - (len(pixelsList) % len(numericalKey))) + i)])</span>
+<a name="l830"><span class="ln">830  </span></a>                <span class="s1">indexremovelist.append((len(pixelsList) - (len(pixelsList) % len(numericalKey))) + i)</span>
+<a name="l831"><span class="ln">831  </span></a>            <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">range(len(indexremovelist)):</span>
+<a name="l832"><span class="ln">832  </span></a>                <span class="s1">pixelsList.pop(indexremovelist[len(indexremovelist) - i - </span><span class="s4">1</span><span class="s1">])</span>
+<a name="l833"><span class="ln">833  </span></a>            <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">range(int(len(pixelsList) / len(numericalKey))):</span>
+<a name="l834"><span class="ln">834  </span></a>                <span class="s1">newPackage.append([])</span>
+<a name="l835"><span class="ln">835  </span></a>                <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">range(len(numericalKey)):</span>
+<a name="l836"><span class="ln">836  </span></a>                    <span class="s1">newPackage[x].append(pixelsList[x * len(numericalKey) + numericalKey[i]])</span>
+<a name="l837"><span class="ln">837  </span></a>            <span class="s0">return </span><span class="s1">lastPixelsList</span><span class="s0">, </span><span class="s1">newPackage</span>
+<a name="l838"><span class="ln">838  </span></a>
+<a name="l839"><span class="ln">839  </span></a>        <span class="s0">def </span><span class="s1">mainoCryptOpti(name):</span>
+<a name="l840"><span class="ln">840  </span></a>            <span class="s1">key = getANewKey()</span>
+<a name="l841"><span class="ln">841  </span></a>            <span class="s1">numKey = getANumericalKey(key)</span>
+<a name="l842"><span class="ln">842  </span></a>            <span class="s1">img = Image.open(name)</span>
+<a name="l843"><span class="ln">843  </span></a>            <span class="s1">nameList = [name]</span>
+<a name="l844"><span class="ln">844  </span></a>            <span class="s1">complexList = generateOneComplexCrypt(img</span><span class="s0">, </span><span class="s1">nameList[</span><span class="s4">0</span><span class="s1">]</span><span class="s0">, </span><span class="s1">numKey)</span>
+<a name="l845"><span class="ln">845  </span></a>            <span class="s0">del </span><span class="s1">img</span>
+<a name="l846"><span class="ln">846  </span></a>            <span class="s1">complexList = encodeImgPixels(complexList</span><span class="s0">, </span><span class="s1">numKey)</span>
+<a name="l847"><span class="ln">847  </span></a>            <span class="s1">complexList[</span><span class="s4">2</span><span class="s1">][</span><span class="s4">0</span><span class="s1">]</span><span class="s0">, </span><span class="s1">complexList[</span><span class="s4">2</span><span class="s1">][</span><span class="s4">1</span><span class="s1">]</span><span class="s0">, </span><span class="s1">complexList[</span><span class="s4">2</span><span class="s1">][</span><span class="s4">2</span><span class="s1">] = recreateImgPixelsRGBList(complexList)</span>
+<a name="l848"><span class="ln">848  </span></a>            <span class="s1">createAnImage(complexList[</span><span class="s4">0</span><span class="s1">][</span><span class="s4">0</span><span class="s1">]</span><span class="s0">, </span><span class="s1">complexList[</span><span class="s4">0</span><span class="s1">][</span><span class="s4">1</span><span class="s1">] + </span><span class="s2">&quot;crypte.bmp&quot;</span><span class="s0">,</span>
+<a name="l849"><span class="ln">849  </span></a>                          <span class="s1">(complexList[</span><span class="s4">2</span><span class="s1">][</span><span class="s4">0</span><span class="s1">]</span><span class="s0">, </span><span class="s1">complexList[</span><span class="s4">2</span><span class="s1">][</span><span class="s4">1</span><span class="s1">]</span><span class="s0">, </span><span class="s1">complexList[</span><span class="s4">2</span><span class="s1">][</span><span class="s4">2</span><span class="s1">]))</span>
+<a name="l850"><span class="ln">850  </span></a>            <span class="s0">del </span><span class="s1">complexList</span>
+<a name="l851"><span class="ln">851  </span></a>            <span class="s0">return </span><span class="s1">key</span>
+<a name="l852"><span class="ln">852  </span></a>
+<a name="l853"><span class="ln">853  </span></a>        <span class="s1">dep2 = time.time()</span>
+<a name="l854"><span class="ln">854  </span></a>        <span class="s1">key = mainoCryptOpti(path_crypte + </span><span class="s2">&quot;image_.bmp&quot;</span><span class="s1">)</span>
+<a name="l855"><span class="ln">855  </span></a>        <span class="s1">arv2 = time.time()</span>
+<a name="l856"><span class="ln">856  </span></a>
+<a name="l857"><span class="ln">857  </span></a>        <span class="s1">os.remove(path_crypte + </span><span class="s2">&quot;image_.bmp&quot;</span><span class="s1">)</span>
+<a name="l858"><span class="ln">858  </span></a>
+<a name="l859"><span class="ln">859  </span></a>        <span class="s1">self.root.ids.my_image_crypte.source = path_crypte + </span><span class="s2">&quot;image_crypte.bmp&quot;</span>
+<a name="l860"><span class="ln">860  </span></a>
+<a name="l861"><span class="ln">861  </span></a>        <span class="s1">key_crypte = (ecrit + str(key))</span>
+<a name="l862"><span class="ln">862  </span></a>        <span class="s1">print(key_crypte)</span>
+<a name="l863"><span class="ln">863  </span></a>
+<a name="l864"><span class="ln">864  </span></a>        <span class="s1">self.root.ids.label_id.text = key_crypte</span>
+<a name="l865"><span class="ln">865  </span></a>
+<a name="l866"><span class="ln">866  </span></a>    <span class="s0">def </span><span class="s1">decryption(self</span><span class="s0">, </span><span class="s1">source):</span>
+<a name="l867"><span class="ln">867  </span></a>
+<a name="l868"><span class="ln">868  </span></a>        <span class="s1">filename = source</span>
+<a name="l869"><span class="ln">869  </span></a>        <span class="s1">img_source = Image.open(filename)</span>
+<a name="l870"><span class="ln">870  </span></a>
+<a name="l871"><span class="ln">871  </span></a>        <span class="s1">x_img</span><span class="s0">, </span><span class="s1">y_img = img_source.size</span>
+<a name="l872"><span class="ln">872  </span></a>        <span class="s1">fond_decrypte = Image.new(</span><span class="s2">'RGB'</span><span class="s0">, </span><span class="s1">(x_img</span><span class="s0">, </span><span class="s1">y_img)</span><span class="s0">, </span><span class="s1">(</span><span class="s4">255</span><span class="s0">, </span><span class="s4">255</span><span class="s0">, </span><span class="s4">0</span><span class="s1">))</span>
+<a name="l873"><span class="ln">873  </span></a>
+<a name="l874"><span class="ln">874  </span></a>        <span class="s0">with </span><span class="s1">open(path_decrypte + </span><span class="s2">&quot;key.pkl&quot;</span><span class="s0">, </span><span class="s2">&quot;rb&quot;</span><span class="s1">) </span><span class="s0">as </span><span class="s1">keypickle:</span>
+<a name="l875"><span class="ln">875  </span></a>            <span class="s1">key_pickle = pickle.load(keypickle)</span>
+<a name="l876"><span class="ln">876  </span></a>
+<a name="l877"><span class="ln">877  </span></a>        <span class="s1">pas = </span><span class="s4">1</span>
+<a name="l878"><span class="ln">878  </span></a>        <span class="s1">ecrit = key_pickle</span>
+<a name="l879"><span class="ln">879  </span></a>
+<a name="l880"><span class="ln">880  </span></a>        <span class="s1">X = [[</span><span class="s4">1531</span><span class="s0">, </span><span class="s4">1894</span><span class="s0">, </span><span class="s4">1403</span><span class="s0">, </span><span class="s4">512</span><span class="s0">, </span><span class="s4">588</span><span class="s0">, </span><span class="s4">1709</span><span class="s0">, </span><span class="s4">460</span><span class="s0">, </span><span class="s4">606</span><span class="s0">, </span><span class="s4">1537</span><span class="s0">, </span><span class="s4">286</span><span class="s1">]</span><span class="s0">,</span>
+<a name="l881"><span class="ln">881  </span></a>             <span class="s1">[</span><span class="s4">925</span><span class="s0">, </span><span class="s4">1901</span><span class="s0">, </span><span class="s4">1803</span><span class="s0">, </span><span class="s4">318</span><span class="s0">, </span><span class="s4">1299</span><span class="s0">, </span><span class="s4">1680</span><span class="s0">, </span><span class="s4">1465</span><span class="s0">, </span><span class="s4">599</span><span class="s0">, </span><span class="s4">762</span><span class="s0">, </span><span class="s4">453</span><span class="s1">]</span><span class="s0">,</span>
+<a name="l882"><span class="ln">882  </span></a>             <span class="s1">[</span><span class="s4">1475</span><span class="s0">, </span><span class="s4">1819</span><span class="s0">, </span><span class="s4">587</span><span class="s0">, </span><span class="s4">1684</span><span class="s0">, </span><span class="s4">1589</span><span class="s0">, </span><span class="s4">534</span><span class="s0">, </span><span class="s4">1533</span><span class="s0">, </span><span class="s4">1435</span><span class="s0">, </span><span class="s4">607</span><span class="s0">, </span><span class="s4">850</span><span class="s1">]</span><span class="s0">,</span>
+<a name="l883"><span class="ln">883  </span></a>             <span class="s1">[</span><span class="s4">1667</span><span class="s0">, </span><span class="s4">1244</span><span class="s0">, </span><span class="s4">1405</span><span class="s0">, </span><span class="s4">818</span><span class="s0">, </span><span class="s4">523</span><span class="s0">, </span><span class="s4">667</span><span class="s0">, </span><span class="s4">600</span><span class="s0">, </span><span class="s4">1364</span><span class="s0">, </span><span class="s4">499</span><span class="s0">, </span><span class="s4">11</span><span class="s1">]</span><span class="s0">,</span>
+<a name="l884"><span class="ln">884  </span></a>             <span class="s1">[</span><span class="s4">621</span><span class="s0">, </span><span class="s4">304</span><span class="s0">, </span><span class="s4">312</span><span class="s0">, </span><span class="s4">159</span><span class="s0">, </span><span class="s4">1871</span><span class="s0">, </span><span class="s4">190</span><span class="s0">, </span><span class="s4">741</span><span class="s0">, </span><span class="s4">1202</span><span class="s0">, </span><span class="s4">1809</span><span class="s0">, </span><span class="s4">1247</span><span class="s1">]</span><span class="s0">,</span>
+<a name="l885"><span class="ln">885  </span></a>             <span class="s1">[</span><span class="s4">810</span><span class="s0">, </span><span class="s4">266</span><span class="s0">, </span><span class="s4">807</span><span class="s0">, </span><span class="s4">1144</span><span class="s0">, </span><span class="s4">1526</span><span class="s0">, </span><span class="s4">187</span><span class="s0">, </span><span class="s4">1075</span><span class="s0">, </span><span class="s4">184</span><span class="s0">, </span><span class="s4">1494</span><span class="s0">, </span><span class="s4">1251</span><span class="s1">]</span><span class="s0">,</span>
+<a name="l886"><span class="ln">886  </span></a>             <span class="s1">[</span><span class="s4">1370</span><span class="s0">, </span><span class="s4">348</span><span class="s0">, </span><span class="s4">1590</span><span class="s0">, </span><span class="s4">1841</span><span class="s0">, </span><span class="s4">923</span><span class="s0">, </span><span class="s4">87</span><span class="s0">, </span><span class="s4">346</span><span class="s0">, </span><span class="s4">308</span><span class="s0">, </span><span class="s4">1584</span><span class="s0">, </span><span class="s4">606</span><span class="s1">]</span><span class="s0">,</span>
+<a name="l887"><span class="ln">887  </span></a>             <span class="s1">[</span><span class="s4">1074</span><span class="s0">, </span><span class="s4">43</span><span class="s0">, </span><span class="s4">913</span><span class="s0">, </span><span class="s4">900</span><span class="s0">, </span><span class="s4">1135</span><span class="s0">, </span><span class="s4">1628</span><span class="s0">, </span><span class="s4">1599</span><span class="s0">, </span><span class="s4">1855</span><span class="s0">, </span><span class="s4">267</span><span class="s0">, </span><span class="s4">930</span><span class="s1">]</span><span class="s0">,</span>
+<a name="l888"><span class="ln">888  </span></a>             <span class="s1">[</span><span class="s4">456</span><span class="s0">, </span><span class="s4">151</span><span class="s0">, </span><span class="s4">1714</span><span class="s0">, </span><span class="s4">49</span><span class="s0">, </span><span class="s4">1037</span><span class="s0">, </span><span class="s4">364</span><span class="s0">, </span><span class="s4">1625</span><span class="s0">, </span><span class="s4">1352</span><span class="s0">, </span><span class="s4">767</span><span class="s0">, </span><span class="s4">1493</span><span class="s1">]</span><span class="s0">,</span>
+<a name="l889"><span class="ln">889  </span></a>             <span class="s1">[</span><span class="s4">705</span><span class="s0">, </span><span class="s4">84</span><span class="s0">, </span><span class="s4">477</span><span class="s0">, </span><span class="s4">1081</span><span class="s0">, </span><span class="s4">1613</span><span class="s0">, </span><span class="s4">1035</span><span class="s0">, </span><span class="s4">32</span><span class="s0">, </span><span class="s4">1471</span><span class="s0">, </span><span class="s4">1106</span><span class="s0">, </span><span class="s4">789</span><span class="s1">]]</span>
+<a name="l890"><span class="ln">890  </span></a>
+<a name="l891"><span class="ln">891  </span></a>        <span class="s1">clef = [int(ecrit[</span><span class="s4">0</span><span class="s1">:</span><span class="s4">1</span><span class="s1">])</span><span class="s0">, </span><span class="s1">int(ecrit[</span><span class="s4">1</span><span class="s1">:</span><span class="s4">2</span><span class="s1">])</span><span class="s0">, </span><span class="s1">int(ecrit[</span><span class="s4">2</span><span class="s1">:</span><span class="s4">3</span><span class="s1">])</span><span class="s0">, </span><span class="s1">int(ecrit[</span><span class="s4">3</span><span class="s1">:</span><span class="s4">4</span><span class="s1">])</span><span class="s0">, </span><span class="s1">int(ecrit[</span><span class="s4">4</span><span class="s1">:</span><span class="s4">5</span><span class="s1">])</span><span class="s0">,</span>
+<a name="l892"><span class="ln">892  </span></a>                <span class="s1">int(ecrit[</span><span class="s4">5</span><span class="s1">:</span><span class="s4">6</span><span class="s1">])</span><span class="s0">, </span><span class="s1">int(ecrit[</span><span class="s4">6</span><span class="s1">:</span><span class="s4">7</span><span class="s1">])</span><span class="s0">, </span><span class="s1">int(ecrit[</span><span class="s4">7</span><span class="s1">:</span><span class="s4">8</span><span class="s1">])</span><span class="s0">, </span><span class="s1">int(ecrit[</span><span class="s4">8</span><span class="s1">:</span><span class="s4">9</span><span class="s1">])</span><span class="s0">, </span><span class="s1">int(ecrit[</span><span class="s4">9</span><span class="s1">:</span><span class="s4">10</span><span class="s1">])</span><span class="s0">,</span>
+<a name="l893"><span class="ln">893  </span></a>                <span class="s1">int(ecrit[</span><span class="s4">10</span><span class="s1">:</span><span class="s4">11</span><span class="s1">])</span><span class="s0">, </span><span class="s1">int(ecrit[</span><span class="s4">11</span><span class="s1">:</span><span class="s4">12</span><span class="s1">])</span><span class="s0">, </span><span class="s1">int(ecrit[</span><span class="s4">12</span><span class="s1">:</span><span class="s4">13</span><span class="s1">])</span><span class="s0">, </span><span class="s1">int(ecrit[</span><span class="s4">13</span><span class="s1">:</span><span class="s4">14</span><span class="s1">])</span><span class="s0">, </span><span class="s1">int(ecrit[</span><span class="s4">14</span><span class="s1">:</span><span class="s4">15</span><span class="s1">])</span><span class="s0">,</span>
+<a name="l894"><span class="ln">894  </span></a>                <span class="s1">int(ecrit[</span><span class="s4">15</span><span class="s1">:</span><span class="s4">16</span><span class="s1">])</span><span class="s0">, </span><span class="s1">int(ecrit[</span><span class="s4">16</span><span class="s1">:</span><span class="s4">18</span><span class="s1">])</span><span class="s0">, </span><span class="s1">int(ecrit[</span><span class="s4">18</span><span class="s1">:</span><span class="s4">20</span><span class="s1">])</span><span class="s0">, </span><span class="s1">int(ecrit[</span><span class="s4">20</span><span class="s1">:</span><span class="s4">22</span><span class="s1">])</span><span class="s0">, </span><span class="s1">int(ecrit[</span><span class="s4">22</span><span class="s1">:</span><span class="s4">24</span><span class="s1">])</span><span class="s0">,</span>
+<a name="l895"><span class="ln">895  </span></a>                <span class="s1">int(ecrit[</span><span class="s4">24</span><span class="s1">:</span><span class="s4">26</span><span class="s1">])</span><span class="s0">, </span><span class="s1">int(ecrit[</span><span class="s4">26</span><span class="s1">:</span><span class="s4">28</span><span class="s1">])</span><span class="s0">, </span><span class="s1">int(ecrit[</span><span class="s4">28</span><span class="s1">:</span><span class="s4">30</span><span class="s1">])</span><span class="s0">, </span><span class="s1">int(ecrit[</span><span class="s4">30</span><span class="s1">:</span><span class="s4">32</span><span class="s1">])]</span>
+<a name="l896"><span class="ln">896  </span></a>
+<a name="l897"><span class="ln">897  </span></a>        <span class="s1">key = ecrit[</span><span class="s4">32</span><span class="s1">::]</span>
+<a name="l898"><span class="ln">898  </span></a>
+<a name="l899"><span class="ln">899  </span></a>        <span class="s1">p = </span><span class="s4">16</span>
+<a name="l900"><span class="ln">900  </span></a>
+<a name="l901"><span class="ln">901  </span></a>        <span class="s1">a_clefx = clef[(clef[</span><span class="s4">16</span><span class="s1">]) % p]</span>
+<a name="l902"><span class="ln">902  </span></a>        <span class="s1">a_clefy = clef[(clef[</span><span class="s4">17</span><span class="s1">]) % p]</span>
+<a name="l903"><span class="ln">903  </span></a>
+<a name="l904"><span class="ln">904  </span></a>        <span class="s1">b_clefx = clef[(clef[</span><span class="s4">18</span><span class="s1">]) % p]</span>
+<a name="l905"><span class="ln">905  </span></a>        <span class="s1">b_clefy = clef[(clef[</span><span class="s4">19</span><span class="s1">]) % p]</span>
+<a name="l906"><span class="ln">906  </span></a>
+<a name="l907"><span class="ln">907  </span></a>        <span class="s1">c_clefx = clef[(clef[</span><span class="s4">20</span><span class="s1">]) % p]</span>
+<a name="l908"><span class="ln">908  </span></a>        <span class="s1">c_clefy = clef[(clef[</span><span class="s4">21</span><span class="s1">]) % p]</span>
+<a name="l909"><span class="ln">909  </span></a>
+<a name="l910"><span class="ln">910  </span></a>        <span class="s1">d_clefx = clef[(clef[</span><span class="s4">22</span><span class="s1">]) % p]</span>
+<a name="l911"><span class="ln">911  </span></a>        <span class="s1">d_clefy = clef[(clef[</span><span class="s4">23</span><span class="s1">]) % p]</span>
+<a name="l912"><span class="ln">912  </span></a>
+<a name="l913"><span class="ln">913  </span></a>        <span class="s1">a = X[a_clefx][a_clefy]</span>
+<a name="l914"><span class="ln">914  </span></a>        <span class="s1">b = X[b_clefx][b_clefy]</span>
+<a name="l915"><span class="ln">915  </span></a>        <span class="s1">c = X[c_clefx][c_clefy]</span>
+<a name="l916"><span class="ln">916  </span></a>        <span class="s1">d = X[d_clefx][d_clefy]</span>
+<a name="l917"><span class="ln">917  </span></a>
+<a name="l918"><span class="ln">918  </span></a>        <span class="s1">clef.pop(a_clefx)</span>
+<a name="l919"><span class="ln">919  </span></a>        <span class="s1">clef.pop(a_clefy)</span>
+<a name="l920"><span class="ln">920  </span></a>
+<a name="l921"><span class="ln">921  </span></a>        <span class="s1">clef.pop(b_clefx)</span>
+<a name="l922"><span class="ln">922  </span></a>        <span class="s1">clef.pop(b_clefy)</span>
+<a name="l923"><span class="ln">923  </span></a>
+<a name="l924"><span class="ln">924  </span></a>        <span class="s1">clef.pop(c_clefx)</span>
+<a name="l925"><span class="ln">925  </span></a>        <span class="s1">clef.pop(c_clefy)</span>
+<a name="l926"><span class="ln">926  </span></a>
+<a name="l927"><span class="ln">927  </span></a>        <span class="s1">clef.pop(d_clefx)</span>
+<a name="l928"><span class="ln">928  </span></a>        <span class="s1">clef.pop(d_clefy)</span>
+<a name="l929"><span class="ln">929  </span></a>
+<a name="l930"><span class="ln">930  </span></a>        <span class="s1">a1 = clef[</span><span class="s4">0</span><span class="s1">]</span>
+<a name="l931"><span class="ln">931  </span></a>        <span class="s1">b1 = clef[</span><span class="s4">1</span><span class="s1">]</span>
+<a name="l932"><span class="ln">932  </span></a>        <span class="s1">c1 = clef[</span><span class="s4">2</span><span class="s1">]</span>
+<a name="l933"><span class="ln">933  </span></a>        <span class="s1">d1 = clef[</span><span class="s4">3</span><span class="s1">]</span>
+<a name="l934"><span class="ln">934  </span></a>
+<a name="l935"><span class="ln">935  </span></a>        <span class="s0">def </span><span class="s1">getANumericalKey(key):</span>
+<a name="l936"><span class="ln">936  </span></a>            <span class="s1">keyValListP = []</span>
+<a name="l937"><span class="ln">937  </span></a>            <span class="s1">numo = len(key)</span>
+<a name="l938"><span class="ln">938  </span></a>            <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">range(</span><span class="s4">10</span><span class="s1">):</span>
+<a name="l939"><span class="ln">939  </span></a>                <span class="s1">keyValListP.append(chr(</span><span class="s4">48 </span><span class="s1">+ x))</span>
+<a name="l940"><span class="ln">940  </span></a>                <span class="s1">numo = numo - </span><span class="s4">1</span>
+<a name="l941"><span class="ln">941  </span></a>            <span class="s0">if </span><span class="s1">(numo &gt; </span><span class="s4">0 </span><span class="s0">and </span><span class="s1">numo &lt; </span><span class="s4">26</span><span class="s1">):</span>
+<a name="l942"><span class="ln">942  </span></a>                <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">range(numo):</span>
+<a name="l943"><span class="ln">943  </span></a>                    <span class="s1">keyValListP.append(chr(</span><span class="s4">65 </span><span class="s1">+ x))</span>
+<a name="l944"><span class="ln">944  </span></a>                    <span class="s1">numo = numo - </span><span class="s4">1</span>
+<a name="l945"><span class="ln">945  </span></a>            <span class="s0">elif </span><span class="s1">numo &gt; </span><span class="s4">0 </span><span class="s0">and </span><span class="s1">numo &gt; </span><span class="s4">26</span><span class="s1">:</span>
+<a name="l946"><span class="ln">946  </span></a>                <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">range(</span><span class="s4">26</span><span class="s1">):</span>
+<a name="l947"><span class="ln">947  </span></a>                    <span class="s1">keyValListP.append(chr(</span><span class="s4">65 </span><span class="s1">+ x))</span>
+<a name="l948"><span class="ln">948  </span></a>                    <span class="s1">numo = numo - </span><span class="s4">1</span>
+<a name="l949"><span class="ln">949  </span></a>                <span class="s0">if </span><span class="s1">numo &lt; </span><span class="s4">26</span><span class="s1">:</span>
+<a name="l950"><span class="ln">950  </span></a>                    <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">range(numo):</span>
+<a name="l951"><span class="ln">951  </span></a>                        <span class="s1">keyValListP.append(chr(</span><span class="s4">97 </span><span class="s1">+ x))</span>
+<a name="l952"><span class="ln">952  </span></a>                        <span class="s1">numo = numo - </span><span class="s4">1</span>
+<a name="l953"><span class="ln">953  </span></a>                <span class="s0">else</span><span class="s1">:</span>
+<a name="l954"><span class="ln">954  </span></a>                    <span class="s1">print(</span><span class="s2">&quot;key.lengh trop grand&quot;</span><span class="s1">)</span>
+<a name="l955"><span class="ln">955  </span></a>                    <span class="s0">return</span>
+<a name="l956"><span class="ln">956  </span></a>            <span class="s1">keyValList = []</span>
+<a name="l957"><span class="ln">957  </span></a>            <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">range(len(key)):</span>
+<a name="l958"><span class="ln">958  </span></a>                <span class="s1">keyValList.append(key[x])</span>
+<a name="l959"><span class="ln">959  </span></a>            <span class="s1">keyNumValList = []</span>
+<a name="l960"><span class="ln">960  </span></a>            <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">range(len(keyValList)):</span>
+<a name="l961"><span class="ln">961  </span></a>                <span class="s1">keyNumValList.append(keyValListP.index(keyValList[x]))</span>
+<a name="l962"><span class="ln">962  </span></a>            <span class="s0">return </span><span class="s1">keyNumValList</span>
+<a name="l963"><span class="ln">963  </span></a>
+<a name="l964"><span class="ln">964  </span></a>        <span class="s0">def </span><span class="s1">generateOneComplexDecrypt(img</span><span class="s0">, </span><span class="s1">imgName</span><span class="s0">, </span><span class="s1">numKey):</span>
+<a name="l965"><span class="ln">965  </span></a>            <span class="s1">complexList = []</span>
+<a name="l966"><span class="ln">966  </span></a>            <span class="s1">complexList.append([])</span>
+<a name="l967"><span class="ln">967  </span></a>            <span class="s1">complexList.append([])</span>
+<a name="l968"><span class="ln">968  </span></a>            <span class="s1">complexList.append([])</span>
+<a name="l969"><span class="ln">969  </span></a>            <span class="s1">complexList.append([])</span>
+<a name="l970"><span class="ln">970  </span></a>            <span class="s1">complexList[</span><span class="s4">0</span><span class="s1">].append(img.size)</span>
+<a name="l971"><span class="ln">971  </span></a>            <span class="s1">complexList[</span><span class="s4">0</span><span class="s1">].append(imgName[:len(imgName) - </span><span class="s4">4</span><span class="s1">])</span>
+<a name="l972"><span class="ln">972  </span></a>            <span class="s1">complexList[</span><span class="s4">1</span><span class="s1">].append(getPixels(get3RGB(img)))</span>
+<a name="l973"><span class="ln">973  </span></a>            <span class="s1">complexList[</span><span class="s4">2</span><span class="s1">].append([])</span>
+<a name="l974"><span class="ln">974  </span></a>            <span class="s1">complexList[</span><span class="s4">2</span><span class="s1">].append([])</span>
+<a name="l975"><span class="ln">975  </span></a>            <span class="s1">complexList[</span><span class="s4">2</span><span class="s1">].append([])</span>
+<a name="l976"><span class="ln">976  </span></a>            <span class="s0">return </span><span class="s1">complexList</span>
+<a name="l977"><span class="ln">977  </span></a>
+<a name="l978"><span class="ln">978  </span></a>        <span class="s0">def </span><span class="s1">decodeImgPixels(imgList</span><span class="s0">, </span><span class="s1">numericalKey):</span>
+<a name="l979"><span class="ln">979  </span></a>            <span class="s1">i = </span><span class="s4">0</span>
+<a name="l980"><span class="ln">980  </span></a>            <span class="s0">while </span><span class="s1">len(imgList[</span><span class="s4">1</span><span class="s1">][i]) / len(numericalKey) &gt; </span><span class="s4">1</span><span class="s1">:</span>
+<a name="l981"><span class="ln">981  </span></a>                <span class="s1">imgList[</span><span class="s4">1</span><span class="s1">].append([])</span>
+<a name="l982"><span class="ln">982  </span></a>                <span class="s1">imgList[</span><span class="s4">1</span><span class="s1">][i]</span><span class="s0">, </span><span class="s1">imgList[</span><span class="s4">1</span><span class="s1">][i + </span><span class="s4">1</span><span class="s1">] = packAList(imgList[</span><span class="s4">1</span><span class="s1">][i]</span><span class="s0">, </span><span class="s1">numericalKey)</span>
+<a name="l983"><span class="ln">983  </span></a>                <span class="s1">i = i + </span><span class="s4">1</span>
+<a name="l984"><span class="ln">984  </span></a>            <span class="s1">pixels = decodePackages(imgList[</span><span class="s4">1</span><span class="s1">]</span><span class="s0">, </span><span class="s1">numericalKey)</span>
+<a name="l985"><span class="ln">985  </span></a>            <span class="s1">imgList[</span><span class="s4">1</span><span class="s1">].append(pixels)</span>
+<a name="l986"><span class="ln">986  </span></a>            <span class="s0">return </span><span class="s1">imgList</span>
+<a name="l987"><span class="ln">987  </span></a>
+<a name="l988"><span class="ln">988  </span></a>        <span class="s0">def </span><span class="s1">RGBrotationBackward(rotationP</span><span class="s0">, </span><span class="s1">pixels):</span>
+<a name="l989"><span class="ln">989  </span></a>            <span class="s1">newpix = []</span>
+<a name="l990"><span class="ln">990  </span></a>            <span class="s1">lastpix = []</span>
+<a name="l991"><span class="ln">991  </span></a>            <span class="s1">delindex = []</span>
+<a name="l992"><span class="ln">992  </span></a>            <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">range(len(pixels) % </span><span class="s4">3</span><span class="s1">):</span>
+<a name="l993"><span class="ln">993  </span></a>                <span class="s1">lastpix.append(pixels[(len(pixels) - len(pixels) % </span><span class="s4">3</span><span class="s1">) + x])</span>
+<a name="l994"><span class="ln">994  </span></a>                <span class="s1">delindex.append((len(pixels) - len(pixels) % </span><span class="s4">3</span><span class="s1">) + x)</span>
+<a name="l995"><span class="ln">995  </span></a>            <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">range(len(delindex)):</span>
+<a name="l996"><span class="ln">996  </span></a>                <span class="s1">pixels.pop(delindex[len(delindex) - x - </span><span class="s4">1</span><span class="s1">])</span>
+<a name="l997"><span class="ln">997  </span></a>            <span class="s0">if </span><span class="s1">rotationP == </span><span class="s4">0</span><span class="s1">:</span>
+<a name="l998"><span class="ln">998  </span></a>                <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">range(int(len(pixels) / </span><span class="s4">3</span><span class="s1">)):</span>
+<a name="l999"><span class="ln">999  </span></a>                    <span class="s1">newpix.append(pixels[x * </span><span class="s4">3</span><span class="s1">])</span>
+<a name="l1000"><span class="ln">1000 </span></a>                    <span class="s1">newpix.append([pixels[x * </span><span class="s4">3 </span><span class="s1">+ </span><span class="s4">1</span><span class="s1">][</span><span class="s4">1</span><span class="s1">]</span><span class="s0">, </span><span class="s1">pixels[x * </span><span class="s4">3 </span><span class="s1">+ </span><span class="s4">1</span><span class="s1">][</span><span class="s4">2</span><span class="s1">]</span><span class="s0">, </span><span class="s1">pixels[x * </span><span class="s4">3 </span><span class="s1">+ </span><span class="s4">1</span><span class="s1">][</span><span class="s4">0</span><span class="s1">]])</span>
+<a name="l1001"><span class="ln">1001 </span></a>                    <span class="s1">newpix.append([pixels[x * </span><span class="s4">3 </span><span class="s1">+ </span><span class="s4">2</span><span class="s1">][</span><span class="s4">2</span><span class="s1">]</span><span class="s0">, </span><span class="s1">pixels[x * </span><span class="s4">3 </span><span class="s1">+ </span><span class="s4">2</span><span class="s1">][</span><span class="s4">0</span><span class="s1">]</span><span class="s0">, </span><span class="s1">pixels[x * </span><span class="s4">3 </span><span class="s1">+ </span><span class="s4">2</span><span class="s1">][</span><span class="s4">1</span><span class="s1">]])</span>
+<a name="l1002"><span class="ln">1002 </span></a>            <span class="s0">elif </span><span class="s1">rotationP == </span><span class="s4">1</span><span class="s1">:</span>
+<a name="l1003"><span class="ln">1003 </span></a>                <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">range(int(len(pixels) / </span><span class="s4">3</span><span class="s1">)):</span>
+<a name="l1004"><span class="ln">1004 </span></a>                    <span class="s1">newpix.append([pixels[x * </span><span class="s4">3</span><span class="s1">][</span><span class="s4">2</span><span class="s1">]</span><span class="s0">, </span><span class="s1">pixels[x * </span><span class="s4">3</span><span class="s1">][</span><span class="s4">0</span><span class="s1">]</span><span class="s0">, </span><span class="s1">pixels[x * </span><span class="s4">3</span><span class="s1">][</span><span class="s4">1</span><span class="s1">]])</span>
+<a name="l1005"><span class="ln">1005 </span></a>                    <span class="s1">newpix.append(pixels[x * </span><span class="s4">3 </span><span class="s1">+ </span><span class="s4">1</span><span class="s1">])</span>
+<a name="l1006"><span class="ln">1006 </span></a>                    <span class="s1">newpix.append([pixels[x * </span><span class="s4">3 </span><span class="s1">+ </span><span class="s4">2</span><span class="s1">][</span><span class="s4">1</span><span class="s1">]</span><span class="s0">, </span><span class="s1">pixels[x * </span><span class="s4">3 </span><span class="s1">+ </span><span class="s4">2</span><span class="s1">][</span><span class="s4">2</span><span class="s1">]</span><span class="s0">, </span><span class="s1">pixels[x * </span><span class="s4">3 </span><span class="s1">+ </span><span class="s4">2</span><span class="s1">][</span><span class="s4">0</span><span class="s1">]])</span>
+<a name="l1007"><span class="ln">1007 </span></a>            <span class="s0">elif </span><span class="s1">rotationP == </span><span class="s4">2</span><span class="s1">:</span>
+<a name="l1008"><span class="ln">1008 </span></a>                <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">range(int(len(pixels) / </span><span class="s4">3</span><span class="s1">)):</span>
+<a name="l1009"><span class="ln">1009 </span></a>                    <span class="s1">newpix.append([pixels[x * </span><span class="s4">3</span><span class="s1">][</span><span class="s4">1</span><span class="s1">]</span><span class="s0">, </span><span class="s1">pixels[x * </span><span class="s4">3</span><span class="s1">][</span><span class="s4">2</span><span class="s1">]</span><span class="s0">, </span><span class="s1">pixels[x * </span><span class="s4">3</span><span class="s1">][</span><span class="s4">0</span><span class="s1">]])</span>
+<a name="l1010"><span class="ln">1010 </span></a>                    <span class="s1">newpix.append([pixels[x * </span><span class="s4">3 </span><span class="s1">+ </span><span class="s4">1</span><span class="s1">][</span><span class="s4">2</span><span class="s1">]</span><span class="s0">, </span><span class="s1">pixels[x * </span><span class="s4">3 </span><span class="s1">+ </span><span class="s4">1</span><span class="s1">][</span><span class="s4">0</span><span class="s1">]</span><span class="s0">, </span><span class="s1">pixels[x * </span><span class="s4">3 </span><span class="s1">+ </span><span class="s4">1</span><span class="s1">][</span><span class="s4">1</span><span class="s1">]])</span>
+<a name="l1011"><span class="ln">1011 </span></a>                    <span class="s1">newpix.append(pixels[x * </span><span class="s4">3 </span><span class="s1">+ </span><span class="s4">2</span><span class="s1">])</span>
+<a name="l1012"><span class="ln">1012 </span></a>            <span class="s0">else</span><span class="s1">:</span>
+<a name="l1013"><span class="ln">1013 </span></a>                <span class="s1">newpix = pixels</span>
+<a name="l1014"><span class="ln">1014 </span></a>
+<a name="l1015"><span class="ln">1015 </span></a>            <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">range(len(lastpix)):</span>
+<a name="l1016"><span class="ln">1016 </span></a>                <span class="s1">newpix.append(lastpix[x])</span>
+<a name="l1017"><span class="ln">1017 </span></a>            <span class="s0">return </span><span class="s1">newpix</span>
+<a name="l1018"><span class="ln">1018 </span></a>
+<a name="l1019"><span class="ln">1019 </span></a>        <span class="s0">def </span><span class="s1">recreateImgPixelsOnlyRGB(complex_img_list):</span>
+<a name="l1020"><span class="ln">1020 </span></a>            <span class="s1">rlist = []</span>
+<a name="l1021"><span class="ln">1021 </span></a>            <span class="s1">glist = []</span>
+<a name="l1022"><span class="ln">1022 </span></a>            <span class="s1">blist = []</span>
+<a name="l1023"><span class="ln">1023 </span></a>            <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">range(len(complex_img_list[</span><span class="s4">1</span><span class="s1">][-</span><span class="s4">1</span><span class="s1">])):</span>
+<a name="l1024"><span class="ln">1024 </span></a>                <span class="s1">rlist.append(complex_img_list[</span><span class="s4">1</span><span class="s1">][-</span><span class="s4">1</span><span class="s1">][x][</span><span class="s4">0</span><span class="s1">])</span>
+<a name="l1025"><span class="ln">1025 </span></a>                <span class="s1">glist.append(complex_img_list[</span><span class="s4">1</span><span class="s1">][-</span><span class="s4">1</span><span class="s1">][x][</span><span class="s4">1</span><span class="s1">])</span>
+<a name="l1026"><span class="ln">1026 </span></a>                <span class="s1">blist.append(complex_img_list[</span><span class="s4">1</span><span class="s1">][-</span><span class="s4">1</span><span class="s1">][x][</span><span class="s4">2</span><span class="s1">])</span>
+<a name="l1027"><span class="ln">1027 </span></a>            <span class="s0">return </span><span class="s1">rlist</span><span class="s0">, </span><span class="s1">glist</span><span class="s0">, </span><span class="s1">blist</span>
+<a name="l1028"><span class="ln">1028 </span></a>
+<a name="l1029"><span class="ln">1029 </span></a>        <span class="s0">def </span><span class="s1">createAnImage(size</span><span class="s0">, </span><span class="s1">name</span><span class="s0">, </span><span class="s1">RGB):</span>
+<a name="l1030"><span class="ln">1030 </span></a>            <span class="s1">imgnr = Image.new(</span><span class="s2">&quot;L&quot;</span><span class="s0">, </span><span class="s1">size)</span>
+<a name="l1031"><span class="ln">1031 </span></a>            <span class="s1">imgnr.putdata(RGB[</span><span class="s4">0</span><span class="s1">])</span>
+<a name="l1032"><span class="ln">1032 </span></a>            <span class="s1">imgng = Image.new(</span><span class="s2">&quot;L&quot;</span><span class="s0">, </span><span class="s1">size)</span>
+<a name="l1033"><span class="ln">1033 </span></a>            <span class="s1">imgng.putdata(RGB[</span><span class="s4">1</span><span class="s1">])</span>
+<a name="l1034"><span class="ln">1034 </span></a>            <span class="s1">imgnb = Image.new(</span><span class="s2">&quot;L&quot;</span><span class="s0">, </span><span class="s1">size)</span>
+<a name="l1035"><span class="ln">1035 </span></a>            <span class="s1">imgnb.putdata(RGB[</span><span class="s4">2</span><span class="s1">])</span>
+<a name="l1036"><span class="ln">1036 </span></a>            <span class="s1">imgnew = Image.merge(</span><span class="s2">&quot;RGB&quot;</span><span class="s0">, </span><span class="s1">(imgnr</span><span class="s0">, </span><span class="s1">imgng</span><span class="s0">, </span><span class="s1">imgnb))</span>
+<a name="l1037"><span class="ln">1037 </span></a>            <span class="s1">imgnew.save(name)</span>
+<a name="l1038"><span class="ln">1038 </span></a>            <span class="s0">return</span>
+<a name="l1039"><span class="ln">1039 </span></a>
+<a name="l1040"><span class="ln">1040 </span></a>        <span class="s0">def </span><span class="s1">getPixels(img_rgb):</span>
+<a name="l1041"><span class="ln">1041 </span></a>            <span class="s1">pixels = []</span>
+<a name="l1042"><span class="ln">1042 </span></a>            <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">range(len(img_rgb[</span><span class="s4">0</span><span class="s1">])):</span>
+<a name="l1043"><span class="ln">1043 </span></a>                <span class="s1">pixels.append([img_rgb[</span><span class="s4">0</span><span class="s1">][x]</span><span class="s0">, </span><span class="s1">img_rgb[</span><span class="s4">1</span><span class="s1">][x]</span><span class="s0">, </span><span class="s1">img_rgb[</span><span class="s4">2</span><span class="s1">][x]])</span>
+<a name="l1044"><span class="ln">1044 </span></a>            <span class="s0">return </span><span class="s1">pixels</span>
+<a name="l1045"><span class="ln">1045 </span></a>
+<a name="l1046"><span class="ln">1046 </span></a>        <span class="s0">def </span><span class="s1">get3RGB(img):</span>
+<a name="l1047"><span class="ln">1047 </span></a>            <span class="s0">try</span><span class="s1">:</span>
+<a name="l1048"><span class="ln">1048 </span></a>                <span class="s1">spliter = img.split()</span>
+<a name="l1049"><span class="ln">1049 </span></a>            <span class="s0">except</span><span class="s1">:</span>
+<a name="l1050"><span class="ln">1050 </span></a>                <span class="s1">print(</span><span class="s2">&quot;Erreur en rapport avec l'image selectionnée&quot;</span><span class="s1">)</span>
+<a name="l1051"><span class="ln">1051 </span></a>            <span class="s1">r = list(spliter[</span><span class="s4">0</span><span class="s1">].getdata())</span>
+<a name="l1052"><span class="ln">1052 </span></a>            <span class="s1">g = list(spliter[</span><span class="s4">1</span><span class="s1">].getdata())</span>
+<a name="l1053"><span class="ln">1053 </span></a>            <span class="s1">b = list(spliter[</span><span class="s4">2</span><span class="s1">].getdata())</span>
+<a name="l1054"><span class="ln">1054 </span></a>            <span class="s0">return </span><span class="s1">r</span><span class="s0">, </span><span class="s1">g</span><span class="s0">, </span><span class="s1">b</span>
+<a name="l1055"><span class="ln">1055 </span></a>
+<a name="l1056"><span class="ln">1056 </span></a>        <span class="s0">def </span><span class="s1">packAList(pixelsList</span><span class="s0">, </span><span class="s1">numericalKey):</span>
+<a name="l1057"><span class="ln">1057 </span></a>            <span class="s1">lastPixelsList = []</span>
+<a name="l1058"><span class="ln">1058 </span></a>            <span class="s1">newPackage = []</span>
+<a name="l1059"><span class="ln">1059 </span></a>            <span class="s1">indexremovelist = []</span>
+<a name="l1060"><span class="ln">1060 </span></a>            <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">range(len(pixelsList) % len(numericalKey)):</span>
+<a name="l1061"><span class="ln">1061 </span></a>                <span class="s1">lastPixelsList.append(pixelsList[((len(pixelsList) - (len(pixelsList) % len(numericalKey))) + i)])</span>
+<a name="l1062"><span class="ln">1062 </span></a>                <span class="s1">indexremovelist.append((len(pixelsList) - (len(pixelsList) % len(numericalKey))) + i)</span>
+<a name="l1063"><span class="ln">1063 </span></a>            <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">range(len(indexremovelist)):</span>
+<a name="l1064"><span class="ln">1064 </span></a>                <span class="s1">pixelsList.pop(indexremovelist[len(indexremovelist) - i - </span><span class="s4">1</span><span class="s1">])</span>
+<a name="l1065"><span class="ln">1065 </span></a>
+<a name="l1066"><span class="ln">1066 </span></a>            <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">range(int(len(pixelsList) / len(numericalKey))):</span>
+<a name="l1067"><span class="ln">1067 </span></a>                <span class="s1">newPackage.append([])</span>
+<a name="l1068"><span class="ln">1068 </span></a>
+<a name="l1069"><span class="ln">1069 </span></a>            <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">range(int(len(pixelsList) / len(numericalKey))):</span>
+<a name="l1070"><span class="ln">1070 </span></a>                <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">range(len(numericalKey)):</span>
+<a name="l1071"><span class="ln">1071 </span></a>                    <span class="s1">newPackage[x].append(pixelsList[x * len(numericalKey) + i])</span>
+<a name="l1072"><span class="ln">1072 </span></a>            <span class="s0">return </span><span class="s1">lastPixelsList</span><span class="s0">, </span><span class="s1">newPackage</span>
+<a name="l1073"><span class="ln">1073 </span></a>
+<a name="l1074"><span class="ln">1074 </span></a>        <span class="s0">def </span><span class="s1">decodePackages(packagesList</span><span class="s0">, </span><span class="s1">numericalKey):</span>
+<a name="l1075"><span class="ln">1075 </span></a>            <span class="s1">pixelslisto = []</span>
+<a name="l1076"><span class="ln">1076 </span></a>            <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">range(len(packagesList) - </span><span class="s4">1</span><span class="s1">):</span>
+<a name="l1077"><span class="ln">1077 </span></a>                <span class="s1">pixelslisto.append([])</span>
+<a name="l1078"><span class="ln">1078 </span></a>                <span class="s0">if </span><span class="s1">x == </span><span class="s4">0</span><span class="s1">:</span>
+<a name="l1079"><span class="ln">1079 </span></a>                    <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">range(len(packagesList[-</span><span class="s4">1</span><span class="s1">])):</span>
+<a name="l1080"><span class="ln">1080 </span></a>                        <span class="s0">for </span><span class="s1">j </span><span class="s0">in </span><span class="s1">range(len(packagesList[-</span><span class="s4">1</span><span class="s1">][i])):</span>
+<a name="l1081"><span class="ln">1081 </span></a>                            <span class="s1">pixelslisto[x].append([])</span>
+<a name="l1082"><span class="ln">1082 </span></a>                        <span class="s0">for </span><span class="s1">j </span><span class="s0">in </span><span class="s1">range(len(packagesList[-</span><span class="s4">1</span><span class="s1">][i])):</span>
+<a name="l1083"><span class="ln">1083 </span></a>                            <span class="s1">pixelslisto[x][i * len(packagesList[-</span><span class="s4">1</span><span class="s1">][i]) + numericalKey[j]] = packagesList[-</span><span class="s4">1</span><span class="s1">][i][j]</span>
+<a name="l1084"><span class="ln">1084 </span></a>                <span class="s0">else</span><span class="s1">:</span>
+<a name="l1085"><span class="ln">1085 </span></a>                    <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">range(len(pixelslisto[x - </span><span class="s4">1</span><span class="s1">])):</span>
+<a name="l1086"><span class="ln">1086 </span></a>                        <span class="s0">for </span><span class="s1">j </span><span class="s0">in </span><span class="s1">range(len(pixelslisto[x - </span><span class="s4">1</span><span class="s1">][i])):</span>
+<a name="l1087"><span class="ln">1087 </span></a>                            <span class="s1">pixelslisto[x].append([])</span>
+<a name="l1088"><span class="ln">1088 </span></a>
+<a name="l1089"><span class="ln">1089 </span></a>                        <span class="s0">for </span><span class="s1">j </span><span class="s0">in </span><span class="s1">range(len(pixelslisto[x - </span><span class="s4">1</span><span class="s1">][i])):</span>
+<a name="l1090"><span class="ln">1090 </span></a>                            <span class="s1">pixelslisto[x][i * len(pixelslisto[x - </span><span class="s4">1</span><span class="s1">][i]) + numericalKey[j]] = \</span>
+<a name="l1091"><span class="ln">1091 </span></a>                                <span class="s1">pixelslisto[x - </span><span class="s4">1</span><span class="s1">][i][</span>
+<a name="l1092"><span class="ln">1092 </span></a>                                    <span class="s1">j]  </span><span class="s3"># [len(packagesList)-x-1][i][numericalKey[j]]</span>
+<a name="l1093"><span class="ln">1093 </span></a>
+<a name="l1094"><span class="ln">1094 </span></a>                <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">range(len(packagesList[len(packagesList) - x - </span><span class="s4">2</span><span class="s1">])):</span>
+<a name="l1095"><span class="ln">1095 </span></a>                    <span class="s1">pixelslisto[x].append(packagesList[len(packagesList) - x - </span><span class="s4">2</span><span class="s1">][i])</span>
+<a name="l1096"><span class="ln">1096 </span></a>            <span class="s0">return </span><span class="s1">pixelslisto[-</span><span class="s4">1</span><span class="s1">]</span>
+<a name="l1097"><span class="ln">1097 </span></a>
+<a name="l1098"><span class="ln">1098 </span></a>        <span class="s0">def </span><span class="s1">mainoDecryptOpti(key</span><span class="s0">, </span><span class="s1">name):</span>
+<a name="l1099"><span class="ln">1099 </span></a>            <span class="s1">numKey = getANumericalKey(key)</span>
+<a name="l1100"><span class="ln">1100 </span></a>            <span class="s1">img = Image.open(name)</span>
+<a name="l1101"><span class="ln">1101 </span></a>            <span class="s1">nameList = [name]</span>
+<a name="l1102"><span class="ln">1102 </span></a>            <span class="s1">complexList = generateOneComplexDecrypt(img</span><span class="s0">, </span><span class="s1">nameList[</span><span class="s4">0</span><span class="s1">]</span><span class="s0">, </span><span class="s1">numKey)</span>
+<a name="l1103"><span class="ln">1103 </span></a>            <span class="s0">del </span><span class="s1">img</span>
+<a name="l1104"><span class="ln">1104 </span></a>            <span class="s1">complexList = decodeImgPixels(complexList</span><span class="s0">, </span><span class="s1">numKey)</span>
+<a name="l1105"><span class="ln">1105 </span></a>            <span class="s1">complexList[</span><span class="s4">1</span><span class="s1">][-</span><span class="s4">1</span><span class="s1">] = RGBrotationBackward(numKey[</span><span class="s4">0</span><span class="s1">] % </span><span class="s4">3</span><span class="s0">, </span><span class="s1">complexList[</span><span class="s4">1</span><span class="s1">][-</span><span class="s4">1</span><span class="s1">])</span>
+<a name="l1106"><span class="ln">1106 </span></a>            <span class="s1">complexList[</span><span class="s4">2</span><span class="s1">][</span><span class="s4">0</span><span class="s1">]</span><span class="s0">, </span><span class="s1">complexList[</span><span class="s4">2</span><span class="s1">][</span><span class="s4">1</span><span class="s1">]</span><span class="s0">, </span><span class="s1">complexList[</span><span class="s4">2</span><span class="s1">][</span><span class="s4">2</span><span class="s1">] = recreateImgPixelsOnlyRGB(complexList)</span>
+<a name="l1107"><span class="ln">1107 </span></a>            <span class="s1">createAnImage(complexList[</span><span class="s4">0</span><span class="s1">][</span><span class="s4">0</span><span class="s1">]</span><span class="s0">, </span><span class="s1">complexList[</span><span class="s4">0</span><span class="s1">][</span><span class="s4">1</span><span class="s1">] + </span><span class="s2">&quot;2.bmp&quot;</span><span class="s0">,</span>
+<a name="l1108"><span class="ln">1108 </span></a>                          <span class="s1">(complexList[</span><span class="s4">2</span><span class="s1">][</span><span class="s4">0</span><span class="s1">]</span><span class="s0">, </span><span class="s1">complexList[</span><span class="s4">2</span><span class="s1">][</span><span class="s4">1</span><span class="s1">]</span><span class="s0">, </span><span class="s1">complexList[</span><span class="s4">2</span><span class="s1">][</span><span class="s4">2</span><span class="s1">]))</span>
+<a name="l1109"><span class="ln">1109 </span></a>            <span class="s0">del </span><span class="s1">complexList</span>
+<a name="l1110"><span class="ln">1110 </span></a>
+<a name="l1111"><span class="ln">1111 </span></a>        <span class="s1">dep1 = time.time()</span>
+<a name="l1112"><span class="ln">1112 </span></a>        <span class="s1">mainoDecryptOpti(key</span><span class="s0">, </span><span class="s1">filename)</span>
+<a name="l1113"><span class="ln">1113 </span></a>        <span class="s1">arv1 = time.time()</span>
+<a name="l1114"><span class="ln">1114 </span></a>
+<a name="l1115"><span class="ln">1115 </span></a>        <span class="s1">img_source1 = Image.open(filename.replace(</span><span class="s2">&quot;.bmp&quot;</span><span class="s0">, </span><span class="s2">&quot;&quot;</span><span class="s1">) + </span><span class="s2">&quot;2.bmp&quot;</span><span class="s1">)</span>
+<a name="l1116"><span class="ln">1116 </span></a>
+<a name="l1117"><span class="ln">1117 </span></a>        <span class="s0">def </span><span class="s1">rotate(lst</span><span class="s0">, </span><span class="s1">x):</span>
+<a name="l1118"><span class="ln">1118 </span></a>            <span class="s0">if </span><span class="s1">x &gt;= </span><span class="s4">0</span><span class="s1">:</span>
+<a name="l1119"><span class="ln">1119 </span></a>                <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">range(x):</span>
+<a name="l1120"><span class="ln">1120 </span></a>                    <span class="s1">lastNum = lst.pop(-</span><span class="s4">1</span><span class="s1">)</span>
+<a name="l1121"><span class="ln">1121 </span></a>                    <span class="s1">lst.insert(</span><span class="s4">0</span><span class="s0">, </span><span class="s1">lastNum)</span>
+<a name="l1122"><span class="ln">1122 </span></a>            <span class="s0">else</span><span class="s1">:</span>
+<a name="l1123"><span class="ln">1123 </span></a>                <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">range(abs(x)):</span>
+<a name="l1124"><span class="ln">1124 </span></a>                    <span class="s1">firstNum = lst.pop(</span><span class="s4">0</span><span class="s1">)</span>
+<a name="l1125"><span class="ln">1125 </span></a>                    <span class="s1">lst.append(firstNum)</span>
+<a name="l1126"><span class="ln">1126 </span></a>            <span class="s0">return </span><span class="s1">lst</span>
+<a name="l1127"><span class="ln">1127 </span></a>
+<a name="l1128"><span class="ln">1128 </span></a>        <span class="s0">def </span><span class="s1">rotate_decrypte(img</span><span class="s0">, </span><span class="s1">a</span><span class="s0">, </span><span class="s1">b</span><span class="s0">, </span><span class="s1">c</span><span class="s0">, </span><span class="s1">d):</span>
+<a name="l1129"><span class="ln">1129 </span></a>            <span class="s1">x_img</span><span class="s0">, </span><span class="s1">y_img = img.size</span>
+<a name="l1130"><span class="ln">1130 </span></a>            <span class="s1">a = a % </span><span class="s4">3</span>
+<a name="l1131"><span class="ln">1131 </span></a>            <span class="s1">b = b % </span><span class="s4">3</span>
+<a name="l1132"><span class="ln">1132 </span></a>            <span class="s1">c = c % </span><span class="s4">3</span>
+<a name="l1133"><span class="ln">1133 </span></a>            <span class="s1">d = d % </span><span class="s4">3</span>
+<a name="l1134"><span class="ln">1134 </span></a>            <span class="s1">a = -a</span>
+<a name="l1135"><span class="ln">1135 </span></a>            <span class="s1">b = -b</span>
+<a name="l1136"><span class="ln">1136 </span></a>            <span class="s1">c = -c</span>
+<a name="l1137"><span class="ln">1137 </span></a>            <span class="s1">d = -d</span>
+<a name="l1138"><span class="ln">1138 </span></a>            <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">range(x_img):</span>
+<a name="l1139"><span class="ln">1139 </span></a>                <span class="s0">for </span><span class="s1">j </span><span class="s0">in </span><span class="s1">range(y_img):</span>
+<a name="l1140"><span class="ln">1140 </span></a>                    <span class="s1">(R</span><span class="s0">, </span><span class="s1">V</span><span class="s0">, </span><span class="s1">B) = img.getpixel((i</span><span class="s0">, </span><span class="s1">j))</span>
+<a name="l1141"><span class="ln">1141 </span></a>                    <span class="s0">if </span><span class="s1">j % </span><span class="s4">2 </span><span class="s1">== </span><span class="s4">0 </span><span class="s0">and </span><span class="s1">i % </span><span class="s4">2 </span><span class="s1">== </span><span class="s4">0</span><span class="s1">:</span>
+<a name="l1142"><span class="ln">1142 </span></a>                        <span class="s1">rot = rotate([R</span><span class="s0">, </span><span class="s1">V</span><span class="s0">, </span><span class="s1">B]</span><span class="s0">, </span><span class="s1">a)</span>
+<a name="l1143"><span class="ln">1143 </span></a>                    <span class="s0">if </span><span class="s1">j % </span><span class="s4">2 </span><span class="s1">== </span><span class="s4">1 </span><span class="s0">and </span><span class="s1">i % </span><span class="s4">2 </span><span class="s1">== </span><span class="s4">1</span><span class="s1">:</span>
+<a name="l1144"><span class="ln">1144 </span></a>                        <span class="s1">rot = rotate([R</span><span class="s0">, </span><span class="s1">V</span><span class="s0">, </span><span class="s1">B]</span><span class="s0">, </span><span class="s1">b)</span>
+<a name="l1145"><span class="ln">1145 </span></a>                    <span class="s0">if </span><span class="s1">i % </span><span class="s4">2 </span><span class="s1">== </span><span class="s4">0 </span><span class="s0">and </span><span class="s1">j % </span><span class="s4">2 </span><span class="s1">== </span><span class="s4">1</span><span class="s1">:</span>
+<a name="l1146"><span class="ln">1146 </span></a>                        <span class="s1">rot = rotate([R</span><span class="s0">, </span><span class="s1">V</span><span class="s0">, </span><span class="s1">B]</span><span class="s0">, </span><span class="s1">c)</span>
+<a name="l1147"><span class="ln">1147 </span></a>                    <span class="s0">if </span><span class="s1">i % </span><span class="s4">2 </span><span class="s1">== </span><span class="s4">1 </span><span class="s0">and </span><span class="s1">j % </span><span class="s4">2 </span><span class="s1">== </span><span class="s4">1</span><span class="s1">:</span>
+<a name="l1148"><span class="ln">1148 </span></a>                        <span class="s1">rot = rotate([R</span><span class="s0">, </span><span class="s1">V</span><span class="s0">, </span><span class="s1">B]</span><span class="s0">, </span><span class="s1">d)</span>
+<a name="l1149"><span class="ln">1149 </span></a>
+<a name="l1150"><span class="ln">1150 </span></a>                    <span class="s1">img.putpixel((i</span><span class="s0">, </span><span class="s1">j)</span><span class="s0">, </span><span class="s1">(rot[</span><span class="s4">0</span><span class="s1">]</span><span class="s0">, </span><span class="s1">rot[</span><span class="s4">1</span><span class="s1">]</span><span class="s0">, </span><span class="s1">rot[</span><span class="s4">2</span><span class="s1">]))</span>
+<a name="l1151"><span class="ln">1151 </span></a>
+<a name="l1152"><span class="ln">1152 </span></a>        <span class="s0">def </span><span class="s1">cryptage(img):</span>
+<a name="l1153"><span class="ln">1153 </span></a>            <span class="s1">x_img</span><span class="s0">, </span><span class="s1">y_img = img.size</span>
+<a name="l1154"><span class="ln">1154 </span></a>            <span class="s1">taille_x = dimensions(y_img // pas) + </span><span class="s4">1</span>
+<a name="l1155"><span class="ln">1155 </span></a>            <span class="s1">taille_y = dimensions(x_img // pas) + </span><span class="s4">1</span>
+<a name="l1156"><span class="ln">1156 </span></a>            <span class="s1">grille_2 = quadrillage(img)</span>
+<a name="l1157"><span class="ln">1157 </span></a>            <span class="s1">grille_crypte2 = zeros(taille_x</span><span class="s0">, </span><span class="s1">taille_y)</span>
+<a name="l1158"><span class="ln">1158 </span></a>            <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">range(</span><span class="s4">1</span><span class="s0">, </span><span class="s1">len(grille_2)):</span>
+<a name="l1159"><span class="ln">1159 </span></a>                <span class="s0">for </span><span class="s1">j </span><span class="s0">in </span><span class="s1">range(</span><span class="s4">1</span><span class="s0">, </span><span class="s1">len(grille_2[</span><span class="s4">0</span><span class="s1">])):</span>
+<a name="l1160"><span class="ln">1160 </span></a>                    <span class="s1">x = (a * i + b) % (len(</span>
+<a name="l1161"><span class="ln">1161 </span></a>                        <span class="s1">grille_2) - </span><span class="s4">1</span><span class="s1">)  </span><span class="s3"># car sinon ce n'est plus un nombre premier (dut à la boucle qui ne va que jusqu'a n-1)</span>
+<a name="l1162"><span class="ln">1162 </span></a>                    <span class="s1">y = (c * j + d) % (len(grille_2[</span><span class="s4">0</span><span class="s1">]) - </span><span class="s4">1</span><span class="s1">)  </span><span class="s3"># idem</span>
+<a name="l1163"><span class="ln">1163 </span></a>                    <span class="s1">grille_crypte2[x + </span><span class="s4">1</span><span class="s1">][y + </span><span class="s4">1</span><span class="s1">] = grille_2[i][j]</span>
+<a name="l1164"><span class="ln">1164 </span></a>            <span class="s0">return </span><span class="s1">grille_crypte2</span>
+<a name="l1165"><span class="ln">1165 </span></a>
+<a name="l1166"><span class="ln">1166 </span></a>        <span class="s0">def </span><span class="s1">dimensions(x):</span>
+<a name="l1167"><span class="ln">1167 </span></a>            <span class="s1">premier = [</span><span class="s4">2</span><span class="s1">]</span>
+<a name="l1168"><span class="ln">1168 </span></a>            <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">range(</span><span class="s4">3</span><span class="s0">, </span><span class="s1">x + </span><span class="s4">1</span><span class="s1">):</span>
+<a name="l1169"><span class="ln">1169 </span></a>                <span class="s1">sqrtI = sqrt(i)</span>
+<a name="l1170"><span class="ln">1170 </span></a>                <span class="s0">for </span><span class="s1">j </span><span class="s0">in </span><span class="s1">premier:</span>
+<a name="l1171"><span class="ln">1171 </span></a>                    <span class="s0">if </span><span class="s1">i % j == </span><span class="s4">0</span><span class="s1">:</span>
+<a name="l1172"><span class="ln">1172 </span></a>                        <span class="s0">break</span>
+<a name="l1173"><span class="ln">1173 </span></a>                    <span class="s0">if </span><span class="s1">j &gt; sqrtI:</span>
+<a name="l1174"><span class="ln">1174 </span></a>                        <span class="s1">premier.append(i)</span>
+<a name="l1175"><span class="ln">1175 </span></a>                        <span class="s0">break</span>
+<a name="l1176"><span class="ln">1176 </span></a>            <span class="s0">return </span><span class="s1">premier[-</span><span class="s4">1</span><span class="s1">]</span>
+<a name="l1177"><span class="ln">1177 </span></a>
+<a name="l1178"><span class="ln">1178 </span></a>        <span class="s0">def </span><span class="s1">zeros(x</span><span class="s0">, </span><span class="s1">y):</span>
+<a name="l1179"><span class="ln">1179 </span></a>            <span class="s1">t_2 = []</span>
+<a name="l1180"><span class="ln">1180 </span></a>            <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">range(x):</span>
+<a name="l1181"><span class="ln">1181 </span></a>                <span class="s1">t_2.append([])</span>
+<a name="l1182"><span class="ln">1182 </span></a>                <span class="s0">for </span><span class="s1">j </span><span class="s0">in </span><span class="s1">range(y):</span>
+<a name="l1183"><span class="ln">1183 </span></a>                    <span class="s1">t_2[i].append((</span><span class="s4">0</span><span class="s0">, </span><span class="s4">0</span><span class="s1">))</span>
+<a name="l1184"><span class="ln">1184 </span></a>            <span class="s0">return </span><span class="s1">t_2</span>
+<a name="l1185"><span class="ln">1185 </span></a>
+<a name="l1186"><span class="ln">1186 </span></a>        <span class="s0">def </span><span class="s1">quadrillage(img):</span>
+<a name="l1187"><span class="ln">1187 </span></a>            <span class="s1">x_img</span><span class="s0">, </span><span class="s1">y_img = img.size</span>
+<a name="l1188"><span class="ln">1188 </span></a>            <span class="s1">taille_x = dimensions(y_img // pas)</span>
+<a name="l1189"><span class="ln">1189 </span></a>            <span class="s1">taille_y = dimensions(x_img // pas)</span>
+<a name="l1190"><span class="ln">1190 </span></a>            <span class="s1">grille_2 = zeros(taille_x + </span><span class="s4">1</span><span class="s0">, </span><span class="s1">taille_y + </span><span class="s4">1</span><span class="s1">)</span>
+<a name="l1191"><span class="ln">1191 </span></a>            <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">range(taille_x):</span>
+<a name="l1192"><span class="ln">1192 </span></a>                <span class="s0">for </span><span class="s1">y </span><span class="s0">in </span><span class="s1">range(taille_y):</span>
+<a name="l1193"><span class="ln">1193 </span></a>                    <span class="s1">grille_2[x + </span><span class="s4">1</span><span class="s1">][y + </span><span class="s4">1</span><span class="s1">] = (y * pas</span><span class="s0">, </span><span class="s1">x * pas)</span>
+<a name="l1194"><span class="ln">1194 </span></a>            <span class="s0">return </span><span class="s1">grille_2</span>
+<a name="l1195"><span class="ln">1195 </span></a>
+<a name="l1196"><span class="ln">1196 </span></a>        <span class="s1">grille_2 = quadrillage(img_source)</span>
+<a name="l1197"><span class="ln">1197 </span></a>        <span class="s1">x_lim</span><span class="s0">, </span><span class="s1">y_lim = grille_2[len(grille_2) - </span><span class="s4">1</span><span class="s1">][len(grille_2[</span><span class="s4">0</span><span class="s1">]) - </span><span class="s4">1</span><span class="s1">]</span>
+<a name="l1198"><span class="ln">1198 </span></a>
+<a name="l1199"><span class="ln">1199 </span></a>        <span class="s0">def </span><span class="s1">decryptage(img):</span>
+<a name="l1200"><span class="ln">1200 </span></a>            <span class="s1">x_img</span><span class="s0">, </span><span class="s1">y_img = img.size</span>
+<a name="l1201"><span class="ln">1201 </span></a>            <span class="s1">taille_x = dimensions(y_img // pas) + </span><span class="s4">1</span>
+<a name="l1202"><span class="ln">1202 </span></a>            <span class="s1">taille_y = dimensions(x_img // pas) + </span><span class="s4">1</span>
+<a name="l1203"><span class="ln">1203 </span></a>            <span class="s1">grille_crypte2 = cryptage(img)</span>
+<a name="l1204"><span class="ln">1204 </span></a>            <span class="s1">grille_decrypte2 = zeros(taille_x</span><span class="s0">, </span><span class="s1">taille_y)</span>
+<a name="l1205"><span class="ln">1205 </span></a>            <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">range(</span><span class="s4">1</span><span class="s0">, </span><span class="s1">len(grille_crypte2)):</span>
+<a name="l1206"><span class="ln">1206 </span></a>                <span class="s0">for </span><span class="s1">j </span><span class="s0">in </span><span class="s1">range(</span><span class="s4">1</span><span class="s0">, </span><span class="s1">len(grille_crypte2[</span><span class="s4">0</span><span class="s1">])):</span>
+<a name="l1207"><span class="ln">1207 </span></a>                    <span class="s1">x = (a * i + b) % (len(</span>
+<a name="l1208"><span class="ln">1208 </span></a>                        <span class="s1">grille_crypte2) - </span><span class="s4">1</span><span class="s1">)  </span><span class="s3"># car sinon ce n'est plus un nombre premier (dut à la boucle qui ne va que jusqu'a n-1)</span>
+<a name="l1209"><span class="ln">1209 </span></a>                    <span class="s1">y = (c * j + d) % (len(grille_crypte2[</span><span class="s4">0</span><span class="s1">]) - </span><span class="s4">1</span><span class="s1">)  </span><span class="s3"># idem</span>
+<a name="l1210"><span class="ln">1210 </span></a>                    <span class="s1">grille_decrypte2[i][j] = grille_crypte2[x + </span><span class="s4">1</span><span class="s1">][y + </span><span class="s4">1</span><span class="s1">]</span>
+<a name="l1211"><span class="ln">1211 </span></a>            <span class="s0">return </span><span class="s1">grille_decrypte2</span>
+<a name="l1212"><span class="ln">1212 </span></a>
+<a name="l1213"><span class="ln">1213 </span></a>        <span class="s0">def </span><span class="s1">decryptage_img(img):</span>
+<a name="l1214"><span class="ln">1214 </span></a>            <span class="s1">grille_crypte2 = cryptage(img)</span>
+<a name="l1215"><span class="ln">1215 </span></a>            <span class="s1">grille_decrypte2 = decryptage(img)</span>
+<a name="l1216"><span class="ln">1216 </span></a>            <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">range(</span><span class="s4">1</span><span class="s0">, </span><span class="s1">len(grille_crypte2)):</span>
+<a name="l1217"><span class="ln">1217 </span></a>                <span class="s0">for </span><span class="s1">j </span><span class="s0">in </span><span class="s1">range(</span><span class="s4">1</span><span class="s0">, </span><span class="s1">len(grille_crypte2[</span><span class="s4">0</span><span class="s1">])):</span>
+<a name="l1218"><span class="ln">1218 </span></a>                    <span class="s1">bloc_img = img.getpixel(grille_crypte2[i][j])</span>
+<a name="l1219"><span class="ln">1219 </span></a>                    <span class="s1">fond_decrypte.putpixel(grille_decrypte2[i][j]</span><span class="s0">, </span><span class="s1">bloc_img)</span>
+<a name="l1220"><span class="ln">1220 </span></a>
+<a name="l1221"><span class="ln">1221 </span></a>        <span class="s1">dep2 = time.time()</span>
+<a name="l1222"><span class="ln">1222 </span></a>        <span class="s1">decryptage_img(img_source1)</span>
+<a name="l1223"><span class="ln">1223 </span></a>        <span class="s1">rotate_decrypte(fond_decrypte</span><span class="s0">, </span><span class="s1">a1</span><span class="s0">, </span><span class="s1">b1</span><span class="s0">, </span><span class="s1">c1</span><span class="s0">, </span><span class="s1">d1)</span>
+<a name="l1224"><span class="ln">1224 </span></a>        <span class="s1">arv2 = time.time()</span>
+<a name="l1225"><span class="ln">1225 </span></a>
+<a name="l1226"><span class="ln">1226 </span></a>        <span class="s1">test_decrypte = fond_decrypte.crop((</span><span class="s4">0</span><span class="s0">, </span><span class="s4">0</span><span class="s0">, </span><span class="s1">x_lim + pas</span><span class="s0">, </span><span class="s1">y_lim + pas))</span>
+<a name="l1227"><span class="ln">1227 </span></a>        <span class="s1">test_decrypte.save(path_decrypte + </span><span class="s2">&quot;image_decrypte.jpg&quot;</span><span class="s1">)</span>
+<a name="l1228"><span class="ln">1228 </span></a>        <span class="s1">image_decrypte = Image.open(path_decrypte + </span><span class="s2">&quot;image_decrypte.jpg&quot;</span><span class="s1">)</span>
+<a name="l1229"><span class="ln">1229 </span></a>
+<a name="l1230"><span class="ln">1230 </span></a>        <span class="s1">self.root.ids.my_image_decrypte.source = path_decrypte + </span><span class="s2">&quot;image_decrypte.jpg&quot;</span>
+<a name="l1231"><span class="ln">1231 </span></a>
+<a name="l1232"><span class="ln">1232 </span></a>        <span class="s1">os.remove(path_decrypte + </span><span class="s2">&quot;key.pkl&quot;</span><span class="s1">)</span>
+<a name="l1233"><span class="ln">1233 </span></a>        <span class="s1">os.remove(path_crypte + </span><span class="s2">&quot;image_crypte2.bmp&quot;</span><span class="s1">)</span>
+<a name="l1234"><span class="ln">1234 </span></a>
+<a name="l1235"><span class="ln">1235 </span></a>    <span class="s0">def </span><span class="s1">bar_crypte(self):</span>
+<a name="l1236"><span class="ln">1236 </span></a>        <span class="s1">current = self.root.ids.my_progress_bar_crypte.value</span>
+<a name="l1237"><span class="ln">1237 </span></a>        <span class="s1">current += </span><span class="s4">1</span>
+<a name="l1238"><span class="ln">1238 </span></a>        <span class="s1">self.root.ids.my_progress_bar_crypte.value = current</span>
+<a name="l1239"><span class="ln">1239 </span></a>
+<a name="l1240"><span class="ln">1240 </span></a>    <span class="s0">def </span><span class="s1">bar_decrypte(self):</span>
+<a name="l1241"><span class="ln">1241 </span></a>        <span class="s1">current = self.root.ids.my_progress_bar_decrypte.value</span>
+<a name="l1242"><span class="ln">1242 </span></a>        <span class="s1">current += </span><span class="s4">1</span>
+<a name="l1243"><span class="ln">1243 </span></a>        <span class="s1">self.root.ids.my_progress_bar_decrypte.value = current</span>
+<a name="l1244"><span class="ln">1244 </span></a>
+<a name="l1245"><span class="ln">1245 </span></a>    <span class="s0">def </span><span class="s1">close_dialog(self</span><span class="s0">, </span><span class="s1">obj):</span>
+<a name="l1246"><span class="ln">1246 </span></a>        <span class="s1">self.dialog.dismiss()</span>
+<a name="l1247"><span class="ln">1247 </span></a>
+<a name="l1248"><span class="ln">1248 </span></a>    <span class="s0">def </span><span class="s1">show_data(self</span><span class="s0">, </span><span class="s1">key):</span>
+<a name="l1249"><span class="ln">1249 </span></a>
+<a name="l1250"><span class="ln">1250 </span></a>        <span class="s0">if </span><span class="s1">len(key) &lt; </span><span class="s4">92</span><span class="s1">:</span>
+<a name="l1251"><span class="ln">1251 </span></a>            <span class="s1">key_error = </span><span class="s2">&quot;This key is too short&quot;</span>
+<a name="l1252"><span class="ln">1252 </span></a>            <span class="s1">self.dialog = MDDialog(title=</span><span class="s2">'Key check'</span><span class="s0">,</span>
+<a name="l1253"><span class="ln">1253 </span></a>                                   <span class="s1">text=key_error</span><span class="s0">,</span>
+<a name="l1254"><span class="ln">1254 </span></a>                                   <span class="s1">size_hint=(</span><span class="s4">0.8</span><span class="s0">, </span><span class="s4">1</span><span class="s1">)</span><span class="s0">,</span>
+<a name="l1255"><span class="ln">1255 </span></a>                                   <span class="s1">buttons=[MDFlatButton(text=</span><span class="s2">'Close'</span><span class="s0">, </span><span class="s1">on_release=self.close_dialog)]</span>
+<a name="l1256"><span class="ln">1256 </span></a>                                   <span class="s1">)</span>
+<a name="l1257"><span class="ln">1257 </span></a>            <span class="s1">self.dialog.open()</span>
+<a name="l1258"><span class="ln">1258 </span></a>
+<a name="l1259"><span class="ln">1259 </span></a>        <span class="s0">elif </span><span class="s1">len(key) &gt; </span><span class="s4">92</span><span class="s1">:</span>
+<a name="l1260"><span class="ln">1260 </span></a>            <span class="s1">key_error = </span><span class="s2">&quot;This key is too long&quot;</span>
+<a name="l1261"><span class="ln">1261 </span></a>            <span class="s1">self.dialog = MDDialog(title=</span><span class="s2">'Key check'</span><span class="s0">,</span>
+<a name="l1262"><span class="ln">1262 </span></a>                                   <span class="s1">text=key_error</span><span class="s0">,</span>
+<a name="l1263"><span class="ln">1263 </span></a>                                   <span class="s1">size_hint=(</span><span class="s4">0.8</span><span class="s0">, </span><span class="s4">1</span><span class="s1">)</span><span class="s0">,</span>
+<a name="l1264"><span class="ln">1264 </span></a>                                   <span class="s1">buttons=[MDFlatButton(text=</span><span class="s2">'Close'</span><span class="s0">, </span><span class="s1">on_release=self.close_dialog)]</span>
+<a name="l1265"><span class="ln">1265 </span></a>                                   <span class="s1">)</span>
+<a name="l1266"><span class="ln">1266 </span></a>            <span class="s1">self.dialog.open()</span>
+<a name="l1267"><span class="ln">1267 </span></a>
+<a name="l1268"><span class="ln">1268 </span></a>        <span class="s0">else</span><span class="s1">:</span>
+<a name="l1269"><span class="ln">1269 </span></a>            <span class="s0">with </span><span class="s1">open(path_decrypte + </span><span class="s2">&quot;key.pkl&quot;</span><span class="s0">, </span><span class="s2">&quot;wb&quot;</span><span class="s1">) </span><span class="s0">as </span><span class="s1">keypickle:</span>
+<a name="l1270"><span class="ln">1270 </span></a>                <span class="s1">pickle.dump(key</span><span class="s0">, </span><span class="s1">keypickle)</span>
+<a name="l1271"><span class="ln">1271 </span></a>
+<a name="l1272"><span class="ln">1272 </span></a>    <span class="s0">def </span><span class="s1">time(self):</span>
+<a name="l1273"><span class="ln">1273 </span></a>        <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">range(</span><span class="s4">15</span><span class="s1">):</span>
+<a name="l1274"><span class="ln">1274 </span></a>            <span class="s1">time.sleep(</span><span class="s4">1</span><span class="s1">)</span>
+<a name="l1275"><span class="ln">1275 </span></a>            <span class="s1">current = self.root.ids.my_progress_bar_crypte.value</span>
+<a name="l1276"><span class="ln">1276 </span></a>            <span class="s1">current += </span><span class="s4">0.1</span>
+<a name="l1277"><span class="ln">1277 </span></a>            <span class="s1">self.root.ids.my_progress_bar_crypte.value = current</span>
+<a name="l1278"><span class="ln">1278 </span></a>
+<a name="l1279"><span class="ln">1279 </span></a><span class="s1">DemoApp().run()</span>
+<a name="l1280"><span class="ln">1280 </span></a></pre>
+</body>
+</html>
